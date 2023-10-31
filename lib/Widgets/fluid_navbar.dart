@@ -19,6 +19,7 @@ class FluidNavBarState extends State<FluidNavBar> {
   final List<NavItem> _navItems = [
     NavItem(Icons.image, "Image"),
     NavItem(Icons.calendar_today, "Calendar"),
+    NavItem(Icons.chat, ""),
     NavItem(Icons.group, "Group"),
     NavItem(Icons.settings, "Settings"),
   ];
@@ -33,11 +34,16 @@ class FluidNavBarState extends State<FluidNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: _navItems.map((item) {
           var index = _navItems.indexOf(item);
+          if (index == 2) {
+            return const IconButton(
+              onPressed: null,
+              icon: Icon(null)
+            );
+          }
           return IconButton(
             onPressed: () => _onNavItemTapped(index),
             icon: Icon(
