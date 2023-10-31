@@ -39,6 +39,7 @@ class MyHomePage extends StatelessWidget {
         children: const [
           Gallery(),
           Text("world2"),
+          Text("easter eggs"),
           Text("hello3"),
           Text("world4"),
         ],
