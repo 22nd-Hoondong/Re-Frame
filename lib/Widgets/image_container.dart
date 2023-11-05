@@ -13,8 +13,8 @@ class ImageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PhotoModal()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PhotoModal()));
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -23,7 +23,7 @@ class ImageContainer extends StatelessWidget {
             height: height,
             width: width,
             color: const Color(0xFFD9D9D9),
-            child: const Text("text"),
+            child: const Icon(Icons.add_a_photo_outlined),
           ),
           Positioned(
             bottom: height,
