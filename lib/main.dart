@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:re_frame/Pages/calendar.dart';
 import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
 
@@ -38,15 +42,16 @@ class MyHomePage extends StatelessWidget {
         controller: pageController,
         children: const [
           Gallery(),
-          Text("world2"),
+          Calendar(),
           Text("easter eggs"),
           Text("hello3"),
           Text("world4"),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: const Icon(Icons.edit,
+        onPressed: () {},
+        child: const Icon(
+          Icons.edit,
           color: Colors.white,
         ),
       ),
@@ -58,4 +63,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
