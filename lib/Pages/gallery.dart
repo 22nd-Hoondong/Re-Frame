@@ -1,29 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:re_frame/Widgets/image_container.dart';
 
-class Gallery extends StatefulWidget {
+class Gallery extends StatelessWidget {
   const Gallery({super.key});
 
   @override
-  State<Gallery> createState() => _GalleryState();
-}
-
-class _GalleryState extends State<Gallery> {
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: const Alignment(0, 1),
-          child: ElevatedButton(
-            onPressed: (){},
-            style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                minimumSize: const Size(56, 56)
-            ),
-            child: const Icon(Icons.edit),
-          ),
+    return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/cork_board.jpg"), fit: BoxFit.fill),
         ),
-      ],
-    );
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+                ImageContainer(
+                  height: 200,
+                  width: 100,
+                ),
+              ],
+            )
+          ],
+        ));
   }
 }
