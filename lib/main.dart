@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_frame/Pages/gallery.dart';
+import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
 
 void main() {
@@ -41,7 +42,7 @@ class MyHomePage extends StatelessWidget {
           Text("world2"),
           Text("easter eggs"),
           Text("hello3"),
-          Text("world4"),
+          Login(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
