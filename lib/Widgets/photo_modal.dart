@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class PhotoModal extends StatelessWidget {
   PhotoModal({super.key});
 
   final db = FirebaseFirestore.instance;
+  final storageRef = FirebaseStorage.instance.ref();
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,28 @@ class PhotoModal extends StatelessWidget {
           future: db.collection("photos").get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data!.docs);
-              return Column(
+              return GridView.count(
+                crossAxisCount: 3,
                 children: snapshot.data!.docs
-                    .map((e) => Text("${e.data()}"))
+                    .map((element) => FutureBuilder(
+                          future: storageRef
+                              .child("${element.id}.png")
+                              .getData(10000 * 10000),
+                          builder: (context, snapshots) {
+                            if (snapshots.hasData) {
+                              return Image.memory(
+                                snapshots.data!,
+                                width: 150,
+                                height: 150,
+                              );
+                            }
+                            return const SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          },
+                        ))
                     .toList(),
               );
             }
