@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:re_frame/Widgets/photo_modal.dart';
 
+// ignore: must_be_immutable
 class ImageContainer extends StatelessWidget {
   final double width, height;
-  const ImageContainer({
+  Image? image;
+  ImageContainer({
     super.key,
     required this.width,
     required this.height,
@@ -12,8 +14,8 @@ class ImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        image = await Navigator.push(
             context, MaterialPageRoute(builder: (context) => PhotoModal()));
       },
       child: Stack(

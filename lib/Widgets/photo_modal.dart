@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PhotoModal extends StatelessWidget {
   PhotoModal({super.key});
 
   final db = FirebaseFirestore.instance;
   final storageRef = FirebaseStorage.instance.ref();
+  List<Image> imageList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,26 @@ class PhotoModal extends StatelessWidget {
                               .getData(10000 * 10000),
                           builder: (context, snapshots) {
                             if (snapshots.hasData) {
-                              return Image.memory(
+                              imageList.add(Image.memory(
                                 snapshots.data!,
                                 width: 150,
                                 height: 150,
+                              ));
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(
+                                      context,
+                                      Image.memory(
+                                        snapshots.data!,
+                                        width: 150,
+                                        height: 150,
+                                      ));
+                                },
+                                child: Image.memory(
+                                  snapshots.data!,
+                                  width: 150,
+                                  height: 150,
+                                ),
                               );
                             }
                             return const SizedBox(

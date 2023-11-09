@@ -11,7 +11,7 @@ class Gallery extends StatelessWidget {
           image: DecorationImage(
               image: AssetImage("images/cork_board.jpg"), fit: BoxFit.fill),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
