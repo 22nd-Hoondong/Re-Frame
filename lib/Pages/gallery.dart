@@ -8,9 +8,13 @@ class Gallery extends StatefulWidget {
   State<Gallery> createState() => _GalleryState();
 }
 
-class _GalleryState extends State<Gallery> {
+class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
