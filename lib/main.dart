@@ -42,6 +42,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: PageView(
         controller: pageController,
+        physics: const NeverScrollableScrollPhysics(), // No sliding
         children: const [
           Gallery(),
           Text("world2"),
