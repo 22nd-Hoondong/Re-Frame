@@ -8,7 +8,6 @@ class PhotoModal extends StatelessWidget {
 
   final db = FirebaseFirestore.instance;
   final storageRef = FirebaseStorage.instance.ref();
-  List<Image> imageList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +28,9 @@ class PhotoModal extends StatelessWidget {
                               .getData(10000 * 10000),
                           builder: (context, snapshots) {
                             if (snapshots.hasData) {
-                              imageList.add(Image.memory(
-                                snapshots.data!,
-                                width: 150,
-                                height: 150,
-                              ));
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.pop(
-                                      context,
-                                      Image.memory(
-                                        snapshots.data!,
-                                        width: 150,
-                                        height: 150,
-                                      ));
+                                  Navigator.pop(context, snapshots.data);
                                 },
                                 child: Image.memory(
                                   snapshots.data!,
