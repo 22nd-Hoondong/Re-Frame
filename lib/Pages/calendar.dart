@@ -100,7 +100,7 @@ class _CalendarState extends State<Calendar>
         rangeSelectionMode: _rangeSelectionMode,
         eventLoader: _getEventsForDay,
         startingDayOfWeek: StartingDayOfWeek.monday,
-        calendarStyle: CalendarStyle(
+        calendarStyle: const CalendarStyle(
           // Use `CalendarStyle` to customize the UI
           outsideDaysVisible: false,
         ),
@@ -116,6 +116,16 @@ class _CalendarState extends State<Calendar>
         onPageChanged: (focusedDay) {
           _focusedDay = focusedDay;
         },
+        calendarBuilders:
+            CalendarBuilders(markerBuilder: (context, date, dynamic event) {
+          if (event.isNotEmpty) {
+            return Container(
+              width: 35,
+              decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
+            );
+          }
+        }),
       ),
       const SizedBox(height: 8.0),
       Expanded(
