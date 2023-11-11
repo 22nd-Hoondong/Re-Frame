@@ -3,6 +3,7 @@
 
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
@@ -35,14 +36,28 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 //     ],
 //   });
 
-final _kEventSource = {
-  DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
-}..addAll({
-    kToday: [
-      const Event('Today\'s Event 1'),
-      const Event('Today\'s Event 2'),
-    ],
-  });
+// final _kEventSource = {
+//   DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
+// }..addAll({
+//     kToday: [
+//       const Event('Today\'s Event 1'),
+//       const Event('Today\'s Event 2'),
+//     ],
+//   });
+
+final _kEventSource = getFirebase();
+
+dynamic getFirebase() {
+  var db = FirebaseFirestore.instance;
+  return {
+    DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
+  }..addAll({
+      kToday: [
+        const Event('Today\'s Event 1'),
+        const Event('Today\'s Event 2'),
+      ],
+    });
+}
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
