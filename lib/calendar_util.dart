@@ -21,12 +21,22 @@ class Event {
 final kEvents = LinkedHashMap<DateTime, List<Event>>(
   equals: isSameDay,
   hashCode: getHashCode,
-)..addAll(_kEventSource);
+)..addAll(_kEventSource); // cascade notation.
+
+// final _kEventSource = {
+//   // collection for statement
+//   for (var item in List.generate(50, (index) => index))
+//     DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
+//         item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
+// }..addAll({
+//     kToday: [
+//       const Event('Today\'s Event 1'),
+//       const Event('Today\'s Event 2'),
+//     ],
+//   });
 
 final _kEventSource = {
-  for (var item in List.generate(50, (index) => index))
-    DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
+  DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
 }..addAll({
     kToday: [
       const Event('Today\'s Event 1'),
