@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:re_frame/calendar_util.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -15,6 +18,7 @@ class _CalendarState extends State<Calendar>
   bool get wantKeepAlive => true;
 
   late final ValueNotifier<List<Event>> _selectedEvents;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
@@ -22,6 +26,27 @@ class _CalendarState extends State<Calendar>
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+  final _kEventSource = {
+    DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
+  }..addAll({
+      kToday: [
+        const Event('Today\'s Event 1'),
+        const Event('Today\'s Event 2'),
+      ],
+    });
+  late final kEvents = LinkedHashMap<DateTime, List<Event>>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  )..addAll(_kEventSource); // cascade notation.
+
+  void getFirebase() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await db.collection("posts").get();
+    querySnapshot.docs.forEach((element) {
+      Timestamp firebaseDate = element.data()["date"];
+      print(DateTime.parse(firebaseDate.toDate().toString()));
+    });
+  }
 
   @override
   void initState() {
@@ -29,6 +54,7 @@ class _CalendarState extends State<Calendar>
 
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    getFirebase();
   }
 
   @override
