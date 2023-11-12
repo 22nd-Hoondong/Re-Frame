@@ -4,13 +4,17 @@
 /// Example event class.
 class Post {
   final String title;
-  final String? content;
-  final DateTime? date;
-  final List<dynamic>? people;
-  final List<dynamic>? photos;
+  final String content;
+  final DateTime date;
+  final List<dynamic> people;
+  final List<dynamic> photos;
 
   Post(
-      {required this.title, this.content, this.date, this.people, this.photos});
+      {required this.title,
+      required this.content,
+      required this.date,
+      required this.people,
+      required this.photos});
 
   @override
   String toString() => title;
