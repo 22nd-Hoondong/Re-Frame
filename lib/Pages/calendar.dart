@@ -34,18 +34,24 @@ class _CalendarState extends State<Calendar>
         const Event('Today\'s Event 2'),
       ],
     });
-  late final kEvents = LinkedHashMap<DateTime, List<Event>>(
+  LinkedHashMap<DateTime, List<Event>> kEvents =
+      LinkedHashMap<DateTime, List<Event>>(
     equals: isSameDay,
     hashCode: getHashCode,
-  )..addAll(_kEventSource); // cascade notation.
+  ); // cascade notation.
 
-  void getFirebase() async {
+  void getFirebasePosts() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await db.collection("posts").get();
-    querySnapshot.docs.forEach((element) {
+    for (var element in querySnapshot.docs) {
       Timestamp firebaseDate = element.data()["date"];
-      print(DateTime.parse(firebaseDate.toDate().toString()));
-    });
+      DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
+      if (kEvents.containsKey(postDate)) {
+        kEvents[postDate]!.add(Event(element.id));
+      } else {
+        kEvents[postDate] = [Event(element.id)];
+      }
+    }
   }
 
   @override
@@ -54,7 +60,8 @@ class _CalendarState extends State<Calendar>
 
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-    getFirebase();
+    kEvents.addAll(_kEventSource);
+    getFirebasePosts();
   }
 
   @override
@@ -64,14 +71,11 @@ class _CalendarState extends State<Calendar>
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
     return kEvents[day] ?? [];
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
     final days = daysInRange(start, end);
-
     return [
       for (final d in days) ..._getEventsForDay(d),
     ];

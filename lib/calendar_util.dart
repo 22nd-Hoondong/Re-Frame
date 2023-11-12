@@ -1,8 +1,6 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'dart:collection';
-
 /// Example event class.
 class Event {
   final String title;
@@ -12,22 +10,6 @@ class Event {
   @override
   String toString() => title;
 }
-
-/// Example events.
-///
-/// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
-
-// final _kEventSource = {
-//   // collection for statement
-//   for (var item in List.generate(50, (index) => index))
-//     DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
-//         item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
-// }..addAll({
-//     kToday: [
-//       const Event('Today\'s Event 1'),
-//       const Event('Today\'s Event 2'),
-//     ],
-//   });
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
