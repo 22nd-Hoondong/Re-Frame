@@ -72,33 +72,54 @@ class PostModal extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(DateFormat("HH:mm").format(_post.date)),
-                                Column(
-                                  children: _post.people.map((docRef) {
-                                    return FutureBuilder(
-                                        future: docRef.get(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<DocumentSnapshot>
-                                                snapshot) {
-                                          if (snapshot.hasData) {
-                                            Map<String, dynamic> doc =
-                                                snapshot.data!.data()
-                                                    as Map<String, dynamic>;
-                                            return Text(doc["name"]);
-                                          }
-                                          return const CircularProgressIndicator();
-                                        });
-                                  }).toList(),
+                                const Text(
+                                  "수정 시간",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                Text(
+                                  DateFormat("HH:mm").format(_post.date),
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
                               ],
                             ),
                           ),
+                          Container(
+                            width: 1000,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white,
+                                border: Border.all(style: BorderStyle.solid)),
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: _post.people.map((docRef) {
+                                return FutureBuilder(
+                                    future: docRef.get(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<DocumentSnapshot>
+                                            snapshot) {
+                                      if (snapshot.hasData) {
+                                        Map<String, dynamic> doc =
+                                            snapshot.data!.data()
+                                                as Map<String, dynamic>;
+                                        return Text(
+                                          doc["name"],
+                                          style: const TextStyle(
+                                              color: Colors.grey),
+                                        );
+                                      }
+                                      return const CircularProgressIndicator();
+                                    });
+                              }).toList(),
+                            ),
+                          ),
                           Text(_post.content),
                           const SizedBox(
-                            height: 1000,
+                            height: 500,
                           ),
-                          Text("${_post.people}"),
                         ],
                       ),
                     ),
