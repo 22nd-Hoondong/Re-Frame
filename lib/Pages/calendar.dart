@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:re_frame/Widgets/pagemodal.dart';
 import 'package:re_frame/calendar_util.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -41,7 +42,7 @@ class _CalendarState extends State<Calendar>
       DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
       Post newPostObj = Post(
           title: postData["title"],
-          content: postData["Content"],
+          content: postData["content"],
           date: postDate,
           people: postData["people"],
           photos: postData["photos"]);
@@ -176,7 +177,13 @@ class _CalendarState extends State<Calendar>
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: ListTile(
-                    onTap: () => print('${value[index]}'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PostModal(post: value[index])));
+                    },
                     title: Text('${value[index]}'),
                   ),
                 );
