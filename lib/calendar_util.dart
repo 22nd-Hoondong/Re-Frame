@@ -20,6 +20,15 @@ int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
 }
 
+// final _kEventSource = {
+//   DateTime.utc(2023, 11, 25): [Post(title: "hello"), Post(title: "world!")]
+// }..addAll({
+//   kToday: [
+//     Post(title: 'Today\'s Event 1'),
+//     Post(title: 'Today\'s Event 2'),
+//   ],
+// });
+
 /// Returns a list of [DateTime] objects from [first] to [last], inclusive.
 List<DateTime> daysInRange(DateTime first, DateTime last) {
   final dayCount = last.difference(first).inDays + 1;

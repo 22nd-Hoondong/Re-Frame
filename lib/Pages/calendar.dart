@@ -26,14 +26,6 @@ class _CalendarState extends State<Calendar>
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-  final _kEventSource = {
-    DateTime.utc(2023, 11, 25): [Post(title: "hello"), Post(title: "world!")]
-  }..addAll({
-      kToday: [
-        Post(title: 'Today\'s Event 1'),
-        Post(title: 'Today\'s Event 2'),
-      ],
-    });
   LinkedHashMap<DateTime, List<Post>> kEvents =
       LinkedHashMap<DateTime, List<Post>>(
     equals: isSameDay,
@@ -44,13 +36,22 @@ class _CalendarState extends State<Calendar>
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await db.collection("posts").get();
     for (var element in querySnapshot.docs) {
-      Timestamp firebaseDate = element.data()["date"];
+      Map<String, dynamic> postData = element.data();
+      Timestamp firebaseDate = postData["date"];
       DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
-      if (kEvents.containsKey(postDate)) {
-        kEvents[postDate]!.add(Post(title: element.id));
-      } else {
-        kEvents[postDate] = [Post(title: element.id)];
-      }
+      Post newPostObj = Post(
+          title: postData["title"],
+          content: postData["Content"],
+          date: postDate,
+          people: postData["people"],
+          photos: postData["photos"]);
+      setState(() {
+        if (kEvents.containsKey(postDate)) {
+          kEvents[postDate]!.add(newPostObj);
+        } else {
+          kEvents[postDate] = [newPostObj];
+        }
+      });
     }
   }
 
@@ -58,10 +59,9 @@ class _CalendarState extends State<Calendar>
   void initState() {
     super.initState();
 
+    getFirebasePosts();
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-    kEvents.addAll(_kEventSource);
-    getFirebasePosts();
   }
 
   @override
@@ -155,6 +155,7 @@ class _CalendarState extends State<Calendar>
                   color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
             );
           }
+          return null;
         }),
       ),
       const SizedBox(height: 8.0),
@@ -165,7 +166,6 @@ class _CalendarState extends State<Calendar>
             return ListView.builder(
               itemCount: value.length,
               itemBuilder: (context, index) {
-                print(value);
                 return Container(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 12.0,
