@@ -2,10 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /// Example event class.
-class Event {
+class Post {
   final String title;
+  final String? content;
+  final DateTime? date;
+  final List<dynamic>? people;
+  final List<dynamic>? photos;
 
-  const Event(this.title);
+  Post(
+      {required this.title, this.content, this.date, this.people, this.photos});
 
   @override
   String toString() => title;

@@ -17,7 +17,7 @@ class _CalendarState extends State<Calendar>
   @override
   bool get wantKeepAlive => true;
 
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late final ValueNotifier<List<Post>> _selectedEvents;
   FirebaseFirestore db = FirebaseFirestore.instance;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
@@ -27,15 +27,15 @@ class _CalendarState extends State<Calendar>
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
   final _kEventSource = {
-    DateTime.utc(2023, 11, 25): [const Event("hello"), const Event("world!")]
+    DateTime.utc(2023, 11, 25): [Post(title: "hello"), Post(title: "world!")]
   }..addAll({
       kToday: [
-        const Event('Today\'s Event 1'),
-        const Event('Today\'s Event 2'),
+        Post(title: 'Today\'s Event 1'),
+        Post(title: 'Today\'s Event 2'),
       ],
     });
-  LinkedHashMap<DateTime, List<Event>> kEvents =
-      LinkedHashMap<DateTime, List<Event>>(
+  LinkedHashMap<DateTime, List<Post>> kEvents =
+      LinkedHashMap<DateTime, List<Post>>(
     equals: isSameDay,
     hashCode: getHashCode,
   ); // cascade notation.
@@ -47,9 +47,9 @@ class _CalendarState extends State<Calendar>
       Timestamp firebaseDate = element.data()["date"];
       DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
       if (kEvents.containsKey(postDate)) {
-        kEvents[postDate]!.add(Event(element.id));
+        kEvents[postDate]!.add(Post(title: element.id));
       } else {
-        kEvents[postDate] = [Event(element.id)];
+        kEvents[postDate] = [Post(title: element.id)];
       }
     }
   }
@@ -70,11 +70,11 @@ class _CalendarState extends State<Calendar>
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<Post> _getEventsForDay(DateTime day) {
     return kEvents[day] ?? [];
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+  List<Post> _getEventsForRange(DateTime start, DateTime end) {
     final days = daysInRange(start, end);
     return [
       for (final d in days) ..._getEventsForDay(d),
@@ -118,7 +118,7 @@ class _CalendarState extends State<Calendar>
   Widget build(BuildContext context) {
     super.build(context);
     return Column(children: [
-      TableCalendar<Event>(
+      TableCalendar<Post>(
         locale: 'ko_KR',
         firstDay: kFirstDay,
         lastDay: kLastDay,
@@ -159,12 +159,13 @@ class _CalendarState extends State<Calendar>
       ),
       const SizedBox(height: 8.0),
       Expanded(
-        child: ValueListenableBuilder<List<Event>>(
+        child: ValueListenableBuilder<List<Post>>(
           valueListenable: _selectedEvents,
           builder: (context, value, _) {
             return ListView.builder(
               itemCount: value.length,
               itemBuilder: (context, index) {
+                print(value);
                 return Container(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 12.0,
