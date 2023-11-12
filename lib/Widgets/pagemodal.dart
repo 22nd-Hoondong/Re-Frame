@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:re_frame/Widgets/modalphotopage.dart';
 import 'package:re_frame/calendar_util.dart';
 
 class PostModal extends StatelessWidget {
   final Post _post;
-  final Reference storageRef = FirebaseStorage.instance.ref();
 
-  PostModal({super.key, required Post post}) : _post = post;
+  const PostModal({super.key, required Post post}) : _post = post;
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +23,8 @@ class PostModal extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: SizedBox(
                         height: 400,
-                        child: PageView(
-                          children: _post.photos.map((element) {
-                            return FutureBuilder(
-                                future: storageRef
-                                    .child("$element.png")
-                                    .getData(10000 * 10000),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Image.memory(
-                                      snapshot.data!,
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.contain,
-                                    );
-                                  }
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                });
-                          }).toList(),
+                        child: PhotoPage(
+                          photos: _post.photos,
                         ),
                       ),
                     ),
