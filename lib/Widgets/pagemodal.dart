@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:re_frame/calendar_util.dart';
 
 class PostModal extends StatelessWidget {
@@ -53,29 +55,50 @@ class PostModal extends StatelessWidget {
                           BoxShadow(
                             color: Colors.grey,
                             offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 5.0,
+                            blurRadius: 10.0,
                           ),
                         ],
                       ),
                       child: Column(
                         children: [
-                          Text(_post.title),
-                          const SizedBox(
-                            height: 10,
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              _post.title,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              children: [
+                                Text(DateFormat("HH:mm").format(_post.date)),
+                                Column(
+                                  children: _post.people.map((docRef) {
+                                    return FutureBuilder(
+                                        future: docRef.get(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<DocumentSnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasData) {
+                                            Map<String, dynamic> doc =
+                                                snapshot.data!.data()
+                                                    as Map<String, dynamic>;
+                                            return Text(doc["name"]);
+                                          }
+                                          return const CircularProgressIndicator();
+                                        });
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
                           ),
                           Text(_post.content),
                           const SizedBox(
-                            height: 10,
-                          ),
-                          Text("${_post.date}"),
-                          const SizedBox(
-                            height: 10,
+                            height: 1000,
                           ),
                           Text("${_post.people}"),
-                          const SizedBox(
-                            height: 100,
-                          ),
-                          Text("${_post.photos}"),
                         ],
                       ),
                     ),

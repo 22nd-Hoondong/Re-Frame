@@ -18,6 +18,10 @@ class Post {
 
   @override
   String toString() => title;
+
+  String prettyDateFormat() {
+    return "${date.hour} : ${date.minute}";
+  }
 }
 
 int getHashCode(DateTime key) {
