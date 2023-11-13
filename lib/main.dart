@@ -1,8 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:re_frame/Pages/gallery.dart';
+import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
+import 'package:re_frame/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(const MyApp());
 }
 
@@ -41,7 +48,7 @@ class MyHomePage extends StatelessWidget {
           Text("world2"),
           Text("easter eggs"),
           Text("hello3"),
-          Text("world4"),
+          Login(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
