@@ -155,7 +155,3 @@ android/app/google-services.json
 !/dev/ci/**/Gemfile.lock
 !.vscode/settings.json
 
-
-ios/Runner.xcodeproj/project.pbxproj
-
-ios/Runner.xcworkspace/contents.xcworkspacedata
