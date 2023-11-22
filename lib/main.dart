@@ -8,7 +8,7 @@ import 'package:re_frame/firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -43,6 +43,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: PageView(
         controller: pageController,
+        physics: const NeverScrollableScrollPhysics(), // No sliding
         children: const [
           Gallery(),
           Text("world2"),
@@ -52,8 +53,9 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: const Icon(Icons.edit,
+        onPressed: () {},
+        child: const Icon(
+          Icons.edit,
           color: Colors.white,
         ),
       ),
@@ -65,4 +67,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
