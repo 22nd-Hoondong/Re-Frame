@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
 import 'package:re_frame/Pages/gallery.dart';
+import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
+import 'package:re_frame/firebase_options.dart';
 
 import 'firebase_options.dart';
 
@@ -46,12 +48,13 @@ class MyHomePage extends StatelessWidget {
       ),
       body: PageView(
         controller: pageController,
+        physics: const NeverScrollableScrollPhysics(), // No sliding
         children: const [
           Gallery(),
           Calendar(),
           Text("easter eggs"),
           Text("hello3"),
-          Text("world4"),
+          Login(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
