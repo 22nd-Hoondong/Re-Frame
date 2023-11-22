@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:re_frame/Widgets/photopage.dart';
+import 'package:re_frame/Widgets/postmodal.dart';
 import 'package:re_frame/calendar_util.dart';
 import 'package:table_calendar/table_calendar.dart';
 
