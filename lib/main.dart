@@ -7,8 +7,6 @@ import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
 import 'package:re_frame/firebase_options.dart';
 
-import 'firebase_options.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
