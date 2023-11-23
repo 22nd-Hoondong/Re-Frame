@@ -17,7 +17,18 @@ void main() async {
 }
 
 Color defaultColor = const Color(0xffFFC1B4);
-final PageController pageController = PageController(initialPage: 0);
+
+class AppBarParams {
+  final Widget title;
+  final List<Widget> actions;
+  final Color backgroundColor;
+
+  AppBarParams({
+    required this.title,
+    required this.actions,
+    required this.backgroundColor,
+  });
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -35,8 +46,48 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MyHomePage extends StatefulWidget {
+  final int initialPage;
+
+  const MyHomePage({
+    key,
+    this.initialPage = 0,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => MyHomePageState();
+
+  static MyHomePageState? of(BuildContext context) {
+    return context.findAncestorStateOfType<MyHomePageState>();
+  }
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  final List<GlobalKey<MainPageStateMixin>> _pageKeys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
+  final PageController _pageController = PageController(initialPage: 0);
+  late AppBarParams _params;
+  int _page = 0;
+
+  set params(AppBarParams value) {
+    setState(() {
+      _params = value;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _page = widget.initialPage;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _pageKeys[0].currentState?.onPageVisible();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +96,8 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: PageView(
-        controller: pageController,
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(), // No sliding
         children: const [
           Gallery(),
@@ -64,9 +116,24 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: FluidNavBar(
-        pageController: pageController,
+        pageController: _pageController,
         defaultColor: defaultColor,
       ),
     );
   }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    _onPageChanged(_page);
+  }
+
+  void _onPageChanged(int page) {
+    setState(() => _page = page);
+    _pageKeys[_page].currentState?.onPageVisible();
+  }
+}
+
+abstract class MainPageStateMixin<T extends StatefulWidget> extends State<T> {
+  void onPageVisible();
 }
