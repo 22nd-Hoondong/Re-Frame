@@ -19,14 +19,14 @@ void main() async {
 Color defaultColor = const Color(0xffFFC1B4);
 
 class AppBarParams {
-  final Widget title;
-  final List<Widget> actions;
-  final Color backgroundColor;
+  final Widget? title;
+  final List<Widget>? actions;
+  final Color? backgroundColor;
 
   AppBarParams({
-    required this.title,
-    required this.actions,
-    required this.backgroundColor,
+    this.title,
+    this.actions,
+    this.backgroundColor,
   });
 }
 
@@ -63,18 +63,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  final List<GlobalKey<MainPageStateMixin>> _pageKeys = [
-    GlobalKey(),
+  final List<GlobalKey<MyHomePageStateMixin>> _pageKeys = [
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
   ];
   final PageController _pageController = PageController(initialPage: 0);
-  late AppBarParams _params;
+  AppBarParams? _params;
   int _page = 0;
 
-  set params(AppBarParams value) {
+  set params(AppBarParams? value) {
     setState(() {
       _params = value;
     });
@@ -93,18 +92,20 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: _params?.title,
+        actions: _params?.actions,
+        backgroundColor: _params?.backgroundColor ?? defaultColor,
       ),
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(), // No sliding
-        children: const [
-          Gallery(),
-          Calendar(),
+        children: [
+          Gallery(key: _pageKeys[0]),
+          Calendar(key: _pageKeys[1]),
           Text("easter eggs"),
-          Text("hello3"),
-          Login(),
+          Text("hello3"), // _pageKeys[2]
+          Login(key: _pageKeys[3]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -134,6 +135,6 @@ class MyHomePageState extends State<MyHomePage> {
   }
 }
 
-abstract class MainPageStateMixin<T extends StatefulWidget> extends State<T> {
+mixin MyHomePageStateMixin<T extends StatefulWidget> on State<T> {
   void onPageVisible();
 }

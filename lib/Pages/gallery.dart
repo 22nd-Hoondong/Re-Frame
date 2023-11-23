@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:re_frame/Widgets/image_container.dart';
 
+import '../main.dart';
+
 class Gallery extends StatefulWidget {
-  const Gallery({super.key});
+  const Gallery({key}): super(key: key);
 
   @override
   State<Gallery> createState() => _GalleryState();
 }
 
-class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin {
+class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -59,5 +61,12 @@ class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin {
             )
           ],
         ));
+  }
+
+  @override
+  void onPageVisible() {
+    MyHomePage
+        .of(context)
+        ?.params = null;
   }
 }
