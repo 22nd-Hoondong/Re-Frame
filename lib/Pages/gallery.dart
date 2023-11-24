@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_frame/Widgets/image_container.dart';
-
-import '../main.dart';
+import 'package:re_frame/main.dart';
 
 class Gallery extends StatefulWidget {
   const Gallery({key}): super(key: key);
