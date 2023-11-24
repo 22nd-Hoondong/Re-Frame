@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:re_frame/Widgets/postmodal.dart';
 import 'package:re_frame/calendar_util.dart';
+import 'package:re_frame/main.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendar extends StatefulWidget {
@@ -14,7 +15,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -193,5 +194,12 @@ class _CalendarState extends State<Calendar>
         ),
       ),
     ]);
+  }
+
+  @override
+  void onPageVisible() {
+    MyHomePage
+        .of(context)
+        ?.params = null;
   }
 }
