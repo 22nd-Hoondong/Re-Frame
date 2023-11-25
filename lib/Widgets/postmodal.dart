@@ -51,6 +51,9 @@ class PostModal extends StatelessWidget {
                             child: SmoothPageIndicator(
                               controller: pageController,
                               count: _post.photos.length,
+                              effect: const ExpandingDotsEffect(
+                                activeDotColor: Color(0xffFFC1B4),
+                              ),
                             ),
                           ),
                           Padding(
