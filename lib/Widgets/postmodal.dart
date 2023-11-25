@@ -6,8 +6,9 @@ import 'package:re_frame/calendar_util.dart';
 
 class PostModal extends StatelessWidget {
   final Post _post;
+  final PageController pageController = PageController();
 
-  const PostModal({super.key, required Post post}) : _post = post;
+  PostModal({super.key, required Post post}) : _post = post;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class PostModal extends StatelessWidget {
                         height: 400,
                         child: PhotoPage(
                           photos: _post.photos,
+                          pageController: pageController,
                         ),
                       ),
                     ),
