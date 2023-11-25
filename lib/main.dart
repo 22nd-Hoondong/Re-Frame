@@ -1,8 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
+import 'package:re_frame/Pages/upload.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -45,7 +52,9 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen()));
+        },
         child: const Icon(Icons.edit,
           color: Colors.white,
         ),
