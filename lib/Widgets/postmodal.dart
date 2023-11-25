@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:re_frame/Widgets/photopage.dart';
 import 'package:re_frame/calendar_util.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PostModal extends StatelessWidget {
   final Post _post;
@@ -45,6 +46,13 @@ class PostModal extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: SmoothPageIndicator(
+                              controller: pageController,
+                              count: _post.photos.length,
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
