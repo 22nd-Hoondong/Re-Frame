@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class PhotoPage extends StatelessWidget {
   final List<dynamic> photos;
+  final PageController _pageController = PageController();
   final Reference storageRef = FirebaseStorage.instance.ref();
   PhotoPage({super.key, required this.photos});
 
   @override
   Widget build(BuildContext context) {
     return PageView(
+      controller: _pageController,
       children: photos.map((element) {
         return FutureBuilder(
             future: storageRef.child("$element.png").getData(10000 * 10000),
