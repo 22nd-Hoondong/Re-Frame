@@ -37,6 +37,8 @@ class PostModal extends StatelessWidget {
                         controller: pageController,
                         count: _post.photos.length,
                         effect: const ExpandingDotsEffect(
+                          dotWidth: 12,
+                          dotHeight: 12,
                           activeDotColor: Color(0xffFFC1B4),
                         ),
                       ),
