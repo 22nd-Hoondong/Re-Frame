@@ -24,10 +24,20 @@ class PostModal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: SizedBox(
-                        height: 400,
+                        height: 500,
                         child: PhotoPage(
                           photos: _post.photos,
                           pageController: pageController,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SmoothPageIndicator(
+                        controller: pageController,
+                        count: _post.photos.length,
+                        effect: const ExpandingDotsEffect(
+                          activeDotColor: Color(0xffFFC1B4),
                         ),
                       ),
                     ),
@@ -46,16 +56,6 @@ class PostModal extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: SmoothPageIndicator(
-                              controller: pageController,
-                              count: _post.photos.length,
-                              effect: const ExpandingDotsEffect(
-                                activeDotColor: Color(0xffFFC1B4),
-                              ),
-                            ),
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
