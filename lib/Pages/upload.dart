@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,6 +15,7 @@ class _UploadScreenState extends State<UploadScreen> {
   final ImagePicker picker = ImagePicker();
   int selected = 0;
 
+  DateTime date = DateTime.now();
   String _dropvalue = '';
   final _droplist = ['친구1', '친구2'];
   @override
@@ -83,6 +85,30 @@ class _UploadScreenState extends State<UploadScreen> {
                     });
                   }, child: Text('Gallary')),
                 ],
+              ),
+              SizedBox(height: 20,),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(color: Colors.black45, width: 1.0)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text('Choose date'),
+                    TextButton(
+                      onPressed: () async {
+                        final selectedDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1950), lastDate: DateTime.now());
+                        if (selectedDate != null) {
+                          setState(() {
+                            date = selectedDate;
+                          });
+                        }
+                      },
+                      child: Text('${date.year}-${date.month}-${date.day}'),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20,),
               TextField(
