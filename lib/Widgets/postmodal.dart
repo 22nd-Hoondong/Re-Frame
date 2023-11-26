@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:re_frame/Widgets/photopage.dart';
 import 'package:re_frame/calendar_util.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PostModal extends StatelessWidget {
   final Post _post;
+  final PageController pageController = PageController();
 
-  const PostModal({super.key, required Post post}) : _post = post;
+  PostModal({super.key, required Post post}) : _post = post;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,22 @@ class PostModal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: SizedBox(
-                        height: 400,
+                        height: 500,
                         child: PhotoPage(
                           photos: _post.photos,
+                          pageController: pageController,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SmoothPageIndicator(
+                        controller: pageController,
+                        count: _post.photos.length,
+                        effect: const ExpandingDotsEffect(
+                          dotWidth: 12,
+                          dotHeight: 12,
+                          activeDotColor: Color(0xffFFC1B4),
                         ),
                       ),
                     ),
