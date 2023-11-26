@@ -19,8 +19,6 @@ class FriendRepository {
         .doc(uid)
         .collection('friends').get();
 
-    print(snapshot.toString());
-
     return snapshot.then((value) => value.docs.map((e) => e.data()).toList());
   }
 }
