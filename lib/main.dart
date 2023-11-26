@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
 import 'package:re_frame/Pages/gallery.dart';
+import 'package:re_frame/Pages/friends.dart';
 import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
 import 'package:re_frame/firebase_options.dart';
@@ -68,6 +69,7 @@ class MyHomePageState extends State<MyHomePage> {
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(),
   ];
   final PageController _pageController = PageController(initialPage: 0);
   AppBarParams? _params;
@@ -104,8 +106,8 @@ class MyHomePageState extends State<MyHomePage> {
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
           Text("easter eggs"),
-          Text("hello3"), // _pageKeys[2]
-          Login(key: _pageKeys[3]),
+          Friends(key: _pageKeys[3]),
+          Login(key: _pageKeys[4]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
