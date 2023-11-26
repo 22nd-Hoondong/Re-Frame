@@ -69,6 +69,7 @@ class MyHomePageState extends State<MyHomePage> {
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(),
   ];
   final PageController _pageController = PageController(initialPage: 0);
   AppBarParams? _params;
@@ -105,8 +106,8 @@ class MyHomePageState extends State<MyHomePage> {
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
           Text("easter eggs"),
-          Friends(key: _pageKeys[2]]),
-          Login(key: _pageKeys[3]]),
+          Friends(key: _pageKeys[3]),
+          Login(key: _pageKeys[4]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
