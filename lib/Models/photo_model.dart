@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:re_frame/Models/post_model.dart';
-import 'package:re_frame/Models/user_model.dart';
+import 'package:re_frame/Models/friend_model.dart';
 
 class Photo {
   late int colSize;
