@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:re_frame/Models/post_model.dart';
 import 'package:re_frame/Models/photo_model.dart';
 
-class User {
+class FriendInfo {
   late List<Photo> home;
   late String name;
 
-  User({
+  FriendInfo({
     required this.home,
     required this.name,
   });
 
-  User.fromSnapshot(DocumentSnapshot snapshot) {
+  FriendInfo.fromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data['home'] != null) {
       home = List<Photo>.empty(growable: true);

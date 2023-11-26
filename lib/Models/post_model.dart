@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:re_frame/Models/photo_model.dart';
-import 'package:re_frame/Models/user_model.dart';
+import 'package:re_frame/Models/friend_model.dart';
 
 class Post {
   late String content;
   late Timestamp date;
-  late List<User> people;
+  late List<FriendInfo> people;
   late List<Photo> photos;
   late String id;
 
@@ -23,9 +23,9 @@ class Post {
     content = data['content'];
     date = data['date'];
     if (data['people'] != null) {
-      people = List<User>.empty(growable: true);
+      people = List<FriendInfo>.empty(growable: true);
       data['people'].forEach((person) {
-        people.add(User.fromSnapshot(person));
+        people.add(FriendInfo.fromSnapshot(person));
       });
     }
     if (data['photos'] != null) {
