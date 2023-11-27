@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
@@ -6,7 +7,9 @@ import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Pages/friends.dart';
 import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
+import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/firebase_options.dart';
+import 'package:re_frame/Pages/upload.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -111,9 +114,10 @@ class MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(
-          Icons.edit,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen()));
+        },
+        child: const Icon(Icons.edit,
           color: Colors.white,
         ),
       ),

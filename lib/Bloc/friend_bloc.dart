@@ -1,7 +1,5 @@
 import 'dart:async';
-
-import 'package:re_frame/Pages/friends.dart';
-
+import '../Models/friend_model.dart';
 import '../Repository/friend_repository.dart';
 
 class FriendBloc {

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:re_frame/Bloc/friend_bloc.dart';
 import 'package:re_frame/main.dart';
 
+import '../Models/friend_model.dart';
+
 class Friends extends StatefulWidget {
   const Friends({super.key});
 
@@ -92,13 +94,3 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
   }
 }
 
-class FriendInfo {
-  final String name;
-  final String uid;
-
-  const FriendInfo(this.name, this.uid);
-
-  static FriendInfo fromJson(Map<String, dynamic> e) {
-    return FriendInfo(e['name'], e['id']);
-  }
-}
