@@ -3,13 +3,14 @@ import 'package:re_frame/Widgets/image_container.dart';
 import 'package:re_frame/main.dart';
 
 class Gallery extends StatefulWidget {
-  const Gallery({key}): super(key: key);
+  const Gallery({super.key});
 
   @override
   State<Gallery> createState() => _GalleryState();
 }
 
-class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
+class _GalleryState extends State<Gallery>
+    with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -64,8 +65,6 @@ class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin, M
 
   @override
   void onPageVisible() {
-    MyHomePage
-        .of(context)
-        ?.params = null;
+    MyHomePage.of(context)?.params = null;
   }
 }

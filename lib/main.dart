@@ -1,15 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
-import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Pages/friends.dart';
+import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Pages/login.dart';
+import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
-import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/firebase_options.dart';
-import 'package:re_frame/Pages/upload.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,9 +52,9 @@ class MyHomePage extends StatefulWidget {
   final int initialPage;
 
   const MyHomePage({
-    key,
+    super.key,
     this.initialPage = 0,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => MyHomePageState();
@@ -108,20 +106,23 @@ class MyHomePageState extends State<MyHomePage> {
         children: [
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
-          Text("easter eggs"),
+          const Text("easter eggs"),
           Friends(key: _pageKeys[3]),
           Login(key: _pageKeys[4]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen()));
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UploadScreen()));
         },
-        child: const Icon(Icons.edit,
+        child: const Icon(
+          Icons.edit,
           color: Colors.white,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: FluidNavBar(
         pageController: _pageController,
         defaultColor: defaultColor,
