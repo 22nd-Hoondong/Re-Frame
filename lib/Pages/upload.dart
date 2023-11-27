@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -40,7 +40,7 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload'),
+        title: const Text('Upload'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -62,43 +62,57 @@ class _UploadScreenState extends State<UploadScreen> {
                     return imageList[index] != null
                         ? Image.file(File(imageList[index]!.path))
                         : Container(
-                      color: Colors.grey,
-                      child: Icon(Icons.add, color: Colors.white,),
-                    );
+                            color: Colors.grey,
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          );
                   },
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(onPressed: () {
-                    getImage(ImageSource.camera, selected);
-                    setState(() {
-                      selected++;
-                    });
-                  }, child: Text('Camera')),
-                  SizedBox(width: 30,),
-                  ElevatedButton(onPressed: () {
-                    getImage(ImageSource.gallery, selected);
-                    setState(() {
-                      selected++;
-                    });
-                  }, child: Text('Gallary')),
+                  ElevatedButton(
+                      onPressed: () {
+                        getImage(ImageSource.camera, selected);
+                        setState(() {
+                          selected++;
+                        });
+                      },
+                      child: const Text('Camera')),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        getImage(ImageSource.gallery, selected);
+                        setState(() {
+                          selected++;
+                        });
+                      },
+                      child: const Text('Gallary')),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: Colors.black45, width: 1.0)
-                ),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    border: Border.all(color: Colors.black45, width: 1.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text('Choose date'),
+                    const Text('Choose date'),
                     TextButton(
                       onPressed: () async {
-                        final selectedDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1950), lastDate: DateTime.now());
+                        final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: date,
+                            firstDate: DateTime(1950),
+                            lastDate: DateTime.now());
                         if (selectedDate != null) {
                           setState(() {
                             date = selectedDate;
@@ -110,37 +124,47 @@ class _UploadScreenState extends State<UploadScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
-              TextField(
+              const SizedBox(
+                height: 20,
+              ),
+              const TextField(
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Input your text'
-                ),
+                    border: OutlineInputBorder(), labelText: 'Input your text'),
               ),
-              SizedBox(height: 20,),
-              Text('Choose your friend', textAlign: TextAlign.left,),
-              SizedBox(height: 10,),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Choose your friend',
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               DropdownButtonFormField(
-                isExpanded: true,
-                  decoration: InputDecoration(
+                  isExpanded: true,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                   value: _dropvalue,
-                  items: _droplist.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                  items: _droplist
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
                   onChanged: (value) {
                     setState(() {
                       _dropvalue = value!;
                     });
-                  }
+                  }),
+              const SizedBox(
+                height: 20,
               ),
-              SizedBox(height: 20,),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: (){},
-                  child: Text('Post'),
+                  onPressed: () {},
+                  child: const Text('Post'),
                 ),
               ),
             ],
