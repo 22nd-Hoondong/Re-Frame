@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:re_frame/main.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:re_frame/Pages/login.dart';
 
 class Setting extends StatefulWidget {
@@ -14,13 +14,35 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> with MyHomePageStateMixin {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  User? loggedUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser(){
+    try{
+      final user = _firebaseAuth.currentUser;
+      if(user != null){
+        loggedUser = user;
+      }
+    } catch(e){
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: TextButton(onPressed: () {
-        signOutGoogle();
-      }, child: Text('Sign Out', style: TextStyle(fontSize: 20),),),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('${loggedUser!.displayName}', style: TextStyle(fontSize: 30, color: Colors.black,)),
+        IconButton(onPressed: (){
+          signOutGoogle();
+        }, icon: const Icon(Icons.logout)),
+      ],
     );
   }
 
