@@ -52,9 +52,9 @@ class MyHomePage extends StatefulWidget {
   final int initialPage;
 
   const MyHomePage({
-    key,
+    super.key,
     this.initialPage = 0,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => MyHomePageState();
