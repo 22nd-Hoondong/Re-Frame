@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
@@ -6,6 +7,7 @@ import 'package:re_frame/Pages/friends.dart';
 import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Pages/upload.dart';
+import 'package:re_frame/Pages/setting.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
 import 'package:re_frame/firebase_options.dart';
 
@@ -43,7 +45,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: defaultColor),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return const MyHomePage();
+          }
+          else {
+            return const LoginPage();
+          }
+        },
+      ),
     );
   }
 }
@@ -108,7 +120,7 @@ class MyHomePageState extends State<MyHomePage> {
           Calendar(key: _pageKeys[1]),
           const Text("easter eggs"),
           Friends(key: _pageKeys[3]),
-          Login(key: _pageKeys[4]),
+          Setting(key: _pageKeys[4]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
