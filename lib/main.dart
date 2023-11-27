@@ -106,15 +106,15 @@ class MyHomePageState extends State<MyHomePage> {
         children: [
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
-          Text("easter eggs"),
+          const Text("easter eggs"),
           Friends(key: _pageKeys[3]),
           Login(key: _pageKeys[4]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UploadScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UploadScreen()));
         },
         child: const Icon(
           Icons.edit,
