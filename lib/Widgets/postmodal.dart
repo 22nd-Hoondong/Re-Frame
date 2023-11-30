@@ -8,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class PostModal extends StatelessWidget {
   final Post _post;
   final PageController pageController = PageController();
+  final db = FirebaseFirestore.instance;
 
   PostModal({super.key, required Post post}) : _post = post;
 
@@ -92,9 +93,12 @@ class PostModal extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: _post.people.map((docRef) {
+                              children: _post.people.map((userId) {
                                 return FutureBuilder(
-                                    future: docRef.get(),
+                                    future: db
+                                        .collection("users")
+                                        .doc(userId)
+                                        .get(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<DocumentSnapshot>
                                             snapshot) {
