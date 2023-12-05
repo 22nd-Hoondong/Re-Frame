@@ -65,6 +65,7 @@ class _GalleryState extends State<Gallery>
 
   @override
   void onPageVisible() {
-    MyHomePage.of(context)?.params = null;
+    print('changed to gallery');
+    MyHomePage.of(context)?.params = AppBarParams();
   }
 }
