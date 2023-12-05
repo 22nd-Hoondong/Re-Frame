@@ -64,8 +64,7 @@ class _GalleryState extends State<Gallery> with AutomaticKeepAliveClientMixin, M
 
   @override
   void onPageVisible() {
-    MyHomePage
-        .of(context)
-        ?.params = null;
+    print('changed to gallery');
+    MyHomePage.of(context)?.params = AppBarParams();
   }
 }

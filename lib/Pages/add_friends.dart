@@ -1,33 +1,43 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:re_frame/Bloc/friend_bloc.dart';
 import 'package:re_frame/main.dart';
 
+import '../Bloc/friend_bloc.dart';
 import '../Models/friend_model.dart';
-import 'add_friends.dart';
+import 'friends.dart';
 
-class Friends extends StatefulWidget {
-  const Friends({super.key});
+class AddFriends extends StatefulWidget {
+  const AddFriends({super.key});
 
   static final FriendBloc bloc = FriendBloc();
 
   @override
-  State createState() => _FriendsState();
+  _AddFriendsState createState() => _AddFriendsState();
 }
 
-class _FriendsState extends State<Friends> with MyHomePageStateMixin {
+class _AddFriendsState extends State<AddFriends> {
   String _searchText = '';
 
   @override
   void initState() {
     super.initState();
-
-    Friends.bloc.getFriends();
+    print("reloading");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: defaultColor,
+        title: const Text('친구 추가'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ),
+        body: Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -41,6 +51,7 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
                   onChanged: (_) {
                     setState(() {
                       _searchText = controller.text;
+                      AddFriends.bloc.searchFriends(_searchText);
                     });
                   },
                   leading: const Icon(Icons.search),
@@ -53,21 +64,28 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
         ),
         Expanded(
             child: StreamBuilder(
-          stream: Friends.bloc.stream,
+          stream: AddFriends.bloc.stream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
+            if (_searchText.isEmpty) {
+              return const Center(child: Text('검색어를 입력해주세요'));
+            } else if (snapshot.hasData) {
+              print("has data");
               var result = snapshot.data as List<FriendInfo>;
               return ListView.builder(
                   itemCount: result.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return result[index].name.contains(_searchText)
-                        ? ListTile(
-                            title: Text(result[index].name),
-                            subtitle: Text(result[index].email),
-                            onTap: () {},
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                          )
-                        : const SizedBox();
+                    return ListTile(
+                      title: Text(result[index].name),
+                      subtitle: Text(result[index].email),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          AddFriends.bloc.addFriend(result[index]);
+                          AddFriends.bloc.searchFriends(_searchText);
+                          Friends.bloc.getFriends();
+                        },
+                      ),
+                    );
                   });
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error'));
@@ -77,23 +95,6 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
           },
         )),
       ],
-    );
-  }
-
-  @override
-  void onPageVisible() {
-    print('changed to friends');
-    MyHomePage.of(context)?.params = AppBarParams.setValue(
-        const Text('친구 목록'),
-        [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddFriends()));
-            },
-          )
-        ],
-        defaultColor);
+    ));
   }
 }

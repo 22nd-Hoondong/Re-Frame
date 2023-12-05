@@ -20,15 +20,16 @@ void main() async {
 Color defaultColor = const Color(0xffFFC1B4);
 
 class AppBarParams {
-  final Widget? title;
-  final List<Widget>? actions;
-  final Color? backgroundColor;
+  Widget title;
+  List<Widget> actions;
+  Color backgroundColor;
 
-  AppBarParams({
-    this.title,
-    this.actions,
-    this.backgroundColor,
-  });
+  AppBarParams()
+      : title = const Text(''),
+        actions = [],
+        backgroundColor = defaultColor;
+
+  AppBarParams.setValue(this.title, this.actions, this.backgroundColor);
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +43,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: defaultColor),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const MyHomePage();
+          } else {
+            return const LoginPage();
+          }
+        },
+      ),
     );
   }
 }
@@ -71,11 +81,12 @@ class MyHomePageState extends State<MyHomePage> {
     GlobalKey(),
     GlobalKey(),
   ];
+
   final PageController _pageController = PageController(initialPage: 0);
-  AppBarParams? _params;
+  AppBarParams _params = AppBarParams();
   int _page = 0;
 
-  set params(AppBarParams? value) {
+  set params(AppBarParams value) {
     setState(() {
       _params = value;
     });
@@ -94,9 +105,9 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _params?.title,
-        actions: _params?.actions,
-        backgroundColor: _params?.backgroundColor ?? defaultColor,
+        title: _params.title,
+        actions: _params.actions,
+        backgroundColor: _params.backgroundColor,
       ),
       body: PageView(
         controller: _pageController,
@@ -105,7 +116,7 @@ class MyHomePageState extends State<MyHomePage> {
         children: [
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
-          Text("easter eggs"),
+          const Text("easter eggs"),
           Friends(key: _pageKeys[3]),
           Login(key: _pageKeys[4]),
         ],
@@ -133,6 +144,8 @@ class MyHomePageState extends State<MyHomePage> {
 
   void _onPageChanged(int page) {
     setState(() => _page = page);
+    print('changed $_page');
+    print(_pageKeys[_page].currentState);
     _pageKeys[_page].currentState?.onPageVisible();
   }
 }

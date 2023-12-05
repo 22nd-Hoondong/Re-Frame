@@ -21,4 +21,24 @@ class FriendRepository {
 
     return snapshot.then((value) => value.docs.map((e) => e.data()).toList());
   }
+
+  Future<List<Map<String, dynamic>>> searchFriends(String searchText) {
+    print('repo ' + searchText);
+    var snapshot = _firestore
+        .collection('users')
+        .where("email", isGreaterThanOrEqualTo: searchText)
+        .where('email', isLessThan: '$searchText\uf8ff')
+        .get();
+
+    return snapshot.then((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Future<void> addFriend(Map<String, dynamic> friend) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('friends')
+        .doc(friend['uid'])
+        .set(friend);
+  }
 }

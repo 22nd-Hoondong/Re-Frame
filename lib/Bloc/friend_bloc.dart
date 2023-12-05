@@ -5,10 +5,8 @@ import 'package:re_frame/Pages/friends.dart';
 import '../Repository/friend_repository.dart';
 
 class FriendBloc {
-  late List<FriendInfo> _friends = [];
-
   final _streamController = StreamController<List<FriendInfo>>.broadcast();
-  Stream<List<FriendInfo>> get stream => _streamController.stream;
+  Stream<List<FriendInfo>> get stream => _streamController.stream.asBroadcastStream();
 
   final repository = FriendRepository();
 
@@ -18,7 +16,33 @@ class FriendBloc {
 
   void getFriends() async {
     var result = await repository.getFriends();
-    _friends = result.map((e) => FriendInfo.fromJson(e)).toList();
-    _streamController.sink.add(_friends);
+    var friends = result.map((e) => FriendInfo.fromJson(e)).toList();
+    _streamController.sink.add(friends);
+  }
+
+  void searchFriends(String searchText) async {
+    if (searchText.isEmpty) {
+      _streamController.sink.add(List.empty());
+    }
+
+    print('bloc old');
+    var oldFriends = (await repository.getFriends()).map((e) => FriendInfo.fromJson(e)).toList();
+    for (var element in oldFriends) {print(element.name);}
+
+    print('bloc new');
+    var newFriends = (await repository.searchFriends(searchText)).map((e) => FriendInfo.fromJson(e)).toList();
+    for (var element in newFriends) {print(element.name);}
+
+    print('bloc result');
+    var result = newFriends.where((element) => !oldFriends.contains(element)).toList();
+    for (var element in result) {print(element.name);}
+
+    result.removeWhere((element) => element.uid == repository.uid);
+
+    _streamController.sink.add(result);
+  }
+
+  void addFriend(FriendInfo friend) async {
+    await repository.addFriend(friend.toSnapshot());
   }
 }
