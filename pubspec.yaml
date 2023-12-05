@@ -43,7 +43,7 @@ dependencies:
   image_picker: ^1.0.4
   table_calendar: ^3.0.9
   intl: ^0.18.0
-  firebase_storage: ^11.5.0
+  firebase_storage: ^11.5.3
   firebase_auth: ^4.12.1
   google_sign_in: ^6.1.5
   smooth_page_indicator: ^1.1.0

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:re_frame/Bloc/friend_bloc.dart';
 import 'package:re_frame/Models/friend_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -18,6 +21,7 @@ class _UploadScreenState extends State<UploadScreen> {
   final ImagePicker picker = ImagePicker();
   int selected = 0;
   DateTime date = DateTime.now();
+  final _titleEditController = TextEditingController();
   final _contentEditController = TextEditingController();
   List<FriendInfo> addFriendList = [];
 
@@ -49,6 +53,14 @@ class _UploadScreenState extends State<UploadScreen> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              TextField(
+                controller: _titleEditController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Title'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 height: 90,
                 child: GridView.builder(
@@ -106,7 +118,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text('Choose date'),
+                    const Text('Date'),
                     TextButton(
                       onPressed: () async {
                         final selectedDate = await showDatePicker(
@@ -133,7 +145,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 controller: _contentEditController,
                 maxLines: null,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Input your text'),
+                    border: OutlineInputBorder(), labelText: 'Context'),
               ),
               const SizedBox(
                 height: 20,
@@ -231,8 +243,60 @@ class _UploadScreenState extends State<UploadScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    if (selected == 0 || _titleEditController.text == '') {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: const Text('The title or photo must be created.'),
+                            actions: [
+                              Center(
+                                child: TextButton(
+                                  child: const Text('Yes'),
+                                  onPressed: (){
+                                    Navigator.of(context).pop;
+                                  },
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    }
+                    else {
+                      final currentUser = FirebaseAuth.instance.currentUser;
+                      List nowImages = [];
+                      var nowPost = await FirebaseFirestore.instance.collection('posts').add({
+                        'title': _titleEditController.text,
+                        'date': date,
+                        'people': List.generate(addFriendList.length, (index) => addFriendList[index].uid),
+                        'content': _contentEditController.text,
+                      });
+                      print(currentUser!.uid);
+                      print(nowPost.id);
+                      FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).collection('posts').doc(nowPost.id).set({'id': nowPost.id});
 
+                      for (var x = 0; x < 5; x++) {
+                        if (imageList[x] != null) {
+                          var nowImage = await FirebaseFirestore.instance.collection('photos').add({
+                            'colSize': 1,
+                            'rowSize': 1,
+                            'post': nowPost.id,
+                          });
+                          nowImages.add(nowImage.id);
+                          FirebaseStorage.instance.ref('${nowImage.id}.png').putFile(File(imageList[x]!.path));
+                          print(nowImage.id);
+                          //nowImages.add(nowImage);
+                        }
+                      }
+                      nowPost.update({
+                        'photos': nowImages,
+                      });
+                      if(!mounted) return;
+                      Navigator.of(context).pop;
+                    }
                   },
                   child: const Text('Post'),
                 ),
