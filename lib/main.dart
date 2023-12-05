@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: defaultColor),
         useMaterial3: true,
+        fontFamily: 'GowunDodum',
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
