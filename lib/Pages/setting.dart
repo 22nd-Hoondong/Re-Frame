@@ -54,8 +54,6 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
 
   @override
   void onPageVisible() {
-    MyHomePage
-        .of(context)
-        ?.params = null;
+    MyHomePage.of(context)?.params = AppBarParams();
   }
 }

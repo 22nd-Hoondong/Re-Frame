@@ -71,9 +71,7 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
 
   @override
   void onPageVisible() {
-    MyHomePage
-        .of(context)
-        ?.params = null;
+    print('changed to login');
   }
 }
 

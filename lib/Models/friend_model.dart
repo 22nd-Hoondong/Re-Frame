@@ -8,7 +8,7 @@ class FriendInfo {
   FriendInfo(this.name, this.uid, this.email);
 
   static FriendInfo fromJson(Map<String, dynamic> e) {
-    return FriendInfo(e['name'], e['id'], e['email']);
+    return FriendInfo(e['name'], e['uid'], e['email']);
   }
 
   FriendInfo.fromSnapshot(DocumentSnapshot snapshot) {
@@ -25,4 +25,13 @@ class FriendInfo {
     data['email'] = email;
     return data;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FriendInfo &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          uid == other.uid &&
+          email == other.email;
 }
