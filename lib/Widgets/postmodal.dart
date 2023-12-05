@@ -91,30 +91,37 @@ class PostModal extends StatelessWidget {
                                 color: Colors.white,
                                 border: Border.all(style: BorderStyle.solid)),
                             margin: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: _post.people.map((userId) {
-                                return FutureBuilder(
-                                    future: db
-                                        .collection("users")
-                                        .doc(userId)
-                                        .get(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<DocumentSnapshot>
-                                            snapshot) {
-                                      if (snapshot.hasData) {
-                                        Map<String, dynamic> doc =
-                                            snapshot.data!.data()
-                                                as Map<String, dynamic>;
-                                        return Text(
-                                          doc["name"],
-                                          style: const TextStyle(
-                                              color: Colors.grey),
-                                        );
-                                      }
-                                      return const CircularProgressIndicator();
-                                    });
-                              }).toList(),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: SizedBox(
+                                width: 420,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: _post.people.map((userId) {
+                                    return FutureBuilder(
+                                        future: db
+                                            .collection("users")
+                                            .doc(userId)
+                                            .get(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<DocumentSnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasData) {
+                                            Map<String, dynamic> doc =
+                                                snapshot.data!.data()
+                                                    as Map<String, dynamic>;
+                                            return Text(
+                                              doc["name"],
+                                              style: const TextStyle(
+                                                  color: Colors.grey),
+                                            );
+                                          }
+                                          return const CircularProgressIndicator();
+                                        });
+                                  }).toList(),
+                                ),
+                              ),
                             ),
                           ),
                           Text(_post.content),
