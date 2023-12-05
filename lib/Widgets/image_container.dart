@@ -45,11 +45,12 @@ class _ImageContainerState extends State<ImageContainer> {
                       context: context,
                       barrierDismissible: false, //바깥 영역 터치시 닫을지 여부 결정
                       builder: (context) => AlertDialog(
-                        title: Text(
+                        title: const Text(
                           "사진을 삭제하시겠습니까?",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).primaryColor),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                         ),
                         actions: [
                           SizedBox(
@@ -63,6 +64,9 @@ class _ImageContainerState extends State<ImageContainer> {
                               },
                               child: const Text(
                                 "네",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
@@ -74,6 +78,9 @@ class _ImageContainerState extends State<ImageContainer> {
                               },
                               child: const Text(
                                 "아니오",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
