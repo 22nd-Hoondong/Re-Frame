@@ -25,13 +25,22 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
             decoration: const BoxDecoration(
               color: Color(0xffFFC1B4),
             ),
-            child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  signInWithGoogle();
-                },
-                child: Image.asset('images/sign_in_button.png'),
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 100,),
+                Image.asset('images/Re-Frame_Logo.png',
+                    width: 300,
+                    height: 300,
+                ),
+                SizedBox(height: 30,),
+                GestureDetector(
+                  onTap: () {
+                    signInWithGoogle();
+                  },
+                  child: Image.asset('images/sign_in_button.png'),
+                ),
+              ],
             ),
           ),
         )
