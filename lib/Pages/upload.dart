@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:re_frame/Bloc/friend_bloc.dart';
+import 'package:re_frame/Models/friend_model.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
+  static final FriendBloc bloc = FriendBloc();
 
   @override
   State<UploadScreen> createState() => _UploadScreenState();
@@ -14,17 +17,15 @@ class _UploadScreenState extends State<UploadScreen> {
   List<XFile?> imageList = List<XFile?>.filled(5, null);
   final ImagePicker picker = ImagePicker();
   int selected = 0;
-
   DateTime date = DateTime.now();
-  String _dropvalue = '';
-  final _droplist = ['친구1', '친구2'];
+  final _contentEditController = TextEditingController();
+  List<FriendInfo> addFriendList = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      _dropvalue = _droplist[0];
-    });
+    UploadScreen.bloc.getFriends();
   }
 
   Future getImage(ImageSource imageSource, int index) async {
@@ -127,43 +128,112 @@ class _UploadScreenState extends State<UploadScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const TextField(
+              TextField(
                 keyboardType: TextInputType.multiline,
+                controller: _contentEditController,
                 maxLines: null,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Input your text'),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Choose your friend',
-                textAlign: TextAlign.left,
+              StreamBuilder(
+                stream: UploadScreen.bloc.stream,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return TextButton(
+                    child: Text('Add Friend'),
+                    onPressed: () {
+                      if (snapshot.hasData) {
+                        var friendList = snapshot.data as List<FriendInfo>;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 90,
+                                  color: const Color(0xffFFC1B4),
+                                  child: const Center(
+                                    child: Text(
+                                      'Your friend list',
+                                      style: TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: friendList.length,
+                                    itemBuilder: (BuildContext context, int idx) {
+                                      return TextButton(
+                                        child: Text(friendList[idx].name),
+                                        onPressed: () {
+                                          if (!addFriendList.contains(friendList[idx])) {
+                                            setState(() {
+                                              addFriendList.add(friendList[idx]);
+                                            });
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }
+                      else {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 90,
+                              color: const Color(0xffFFC1B4),
+                              child: const Center(
+                                child: Text(
+                                  'You have no Friend',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        );
+                      }
+                    },
+                  );
+                }
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 30,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: addFriendList.length,
+                  itemBuilder: (BuildContext context, int idx) {
+                    return ElevatedButton(
+                      child: Text(addFriendList[idx].name),
+                      onPressed: () {
+                        setState(() {
+                          addFriendList.remove(addFriendList[idx]);
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
-              DropdownButtonFormField(
-                  isExpanded: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  value: _dropvalue,
-                  items: _droplist
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _dropvalue = value!;
-                    });
-                  }),
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   child: const Text('Post'),
                 ),
               ),
