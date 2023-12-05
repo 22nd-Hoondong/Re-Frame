@@ -45,6 +45,7 @@ class _ImageContainerState extends State<ImageContainer> {
                       context: context,
                       barrierDismissible: false, //바깥 영역 터치시 닫을지 여부 결정
                       builder: (context) => AlertDialog(
+                        actionsAlignment: MainAxisAlignment.spaceBetween,
                         backgroundColor: Colors.white,
                         title: const Text(
                           "사진을 삭제하시겠습니까?",
