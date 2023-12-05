@@ -250,13 +250,16 @@ class _UploadScreenState extends State<UploadScreen> {
                         barrierDismissible: false,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            content: const Text('The title or photo must be created.'),
+                            content: const Padding(
+                              padding: EdgeInsets.only(top: 15.0),
+                              child: Text('The title or photo must be created.', style: TextStyle(fontSize: 15),),
+                            ),
                             actions: [
                               Center(
                                 child: TextButton(
                                   child: const Text('Yes'),
                                   onPressed: (){
-                                    Navigator.of(context).pop;
+                                    Navigator.pop(context);
                                   },
                                 ),
                               )
@@ -295,7 +298,7 @@ class _UploadScreenState extends State<UploadScreen> {
                         'photos': nowImages,
                       });
                       if(!mounted) return;
-                      Navigator.of(context).pop;
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('Post'),
