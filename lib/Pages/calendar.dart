@@ -198,5 +198,6 @@ class _CalendarState extends State<Calendar>
 
   @override
   void onPageVisible() {
+    MyHomePage.of(context)?.params = AppBarParams();
   }
 }

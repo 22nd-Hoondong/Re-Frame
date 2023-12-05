@@ -11,7 +11,7 @@ class Setting extends StatefulWidget {
   State<Setting> createState() => _SettingState();
 }
 
-class _SettingState extends State<Setting> with MyHomePageStateMixin {
+class _SettingState extends State<Setting> with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? loggedUser;
@@ -56,4 +56,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   void onPageVisible() {
     MyHomePage.of(context)?.params = AppBarParams();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

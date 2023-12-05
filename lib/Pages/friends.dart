@@ -15,7 +15,7 @@ class Friends extends StatefulWidget {
   State createState() => _FriendsState();
 }
 
-class _FriendsState extends State<Friends> with MyHomePageStateMixin {
+class _FriendsState extends State<Friends> with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
   String _searchText = '';
 
   @override
@@ -98,4 +98,7 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
         ],
         defaultColor);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

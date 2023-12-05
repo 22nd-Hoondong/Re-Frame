@@ -120,7 +120,7 @@ class MyHomePageState extends State<MyHomePage> {
         children: [
           Gallery(key: _pageKeys[0]),
           Calendar(key: _pageKeys[1]),
-          const Text("easter eggs"),
+          Text("easter eggs", key: _pageKeys[2]),
           Friends(key: _pageKeys[3]),
           Setting(key: _pageKeys[4]),
         ],
@@ -151,10 +151,11 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _onPageChanged(int page) {
+    _pageKeys[page].currentState?.onPageVisible();
     setState(() => _page = page);
     print('changed $_page');
+    print(_pageKeys[_page].currentContext);
     print(_pageKeys[_page].currentState);
-    _pageKeys[_page].currentState?.onPageVisible();
   }
 }
 
