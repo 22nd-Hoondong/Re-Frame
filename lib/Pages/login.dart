@@ -28,17 +28,18 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 100,),
                 Image.asset('images/Re-Frame_Logo.png',
                     width: 300,
                     height: 300,
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 60,),
                 GestureDetector(
                   onTap: () {
                     signInWithGoogle();
                   },
-                  child: Image.asset('images/sign_in_button.png'),
+                  child: Image.asset('images/android_neutral_sq_SI@2x.png',
+                    width: 250,
+                  ),
                 ),
               ],
             ),
