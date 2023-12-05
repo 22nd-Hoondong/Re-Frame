@@ -38,10 +38,54 @@ class _ImageContainerState extends State<ImageContainer> {
                   color: const Color(0xFFD9D9D9),
                   child: const Icon(Icons.add_a_photo_outlined),
                 )
-              : Image.memory(
-                  imageData!,
-                  height: widget.height,
-                  width: widget.width,
+              : GestureDetector(
+                  onTap: () {},
+                  onLongPress: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false, //바깥 영역 터치시 닫을지 여부 결정
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          "사진을 삭제하시겠습니까?",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                        actions: [
+                          SizedBox(
+                            width: 100,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  imageData = null;
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                "네",
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 100,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                "아니오",
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Image.memory(
+                    imageData!,
+                    height: widget.height,
+                    width: widget.width,
+                  ),
                 ),
           Positioned(
             bottom: widget.height,
