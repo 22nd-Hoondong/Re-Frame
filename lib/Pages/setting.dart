@@ -49,13 +49,11 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   Future<void> signOutGoogle() async {
     await _firebaseAuth.signOut();
     await GoogleSignIn().signOut();
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Login()),(route) => false);
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
   }
 
   @override
   void onPageVisible() {
-    MyHomePage
-        .of(context)
-        ?.params = null;
+    MyHomePage.of(context)?.params = AppBarParams();
   }
 }

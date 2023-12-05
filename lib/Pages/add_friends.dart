@@ -19,12 +19,6 @@ class _AddFriendsState extends State<AddFriends> {
   String _searchText = '';
 
   @override
-  void initState() {
-    super.initState();
-    print("reloading");
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +63,6 @@ class _AddFriendsState extends State<AddFriends> {
             if (_searchText.isEmpty) {
               return const Center(child: Text('검색어를 입력해주세요'));
             } else if (snapshot.hasData) {
-              print("has data");
               var result = snapshot.data as List<FriendInfo>;
               return ListView.builder(
                   itemCount: result.length,

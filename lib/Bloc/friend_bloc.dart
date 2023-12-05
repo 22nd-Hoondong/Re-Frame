@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:re_frame/Pages/friends.dart';
-
 import '../Models/friend_model.dart';
 import '../Repository/friend_repository.dart';
 
@@ -24,17 +22,15 @@ class FriendBloc {
   void searchFriends(String searchText) async {
     if (searchText.isEmpty) {
       _streamController.sink.add(List.empty());
+      return;
     }
 
-    print('bloc old');
     var oldFriends = (await repository.getFriends()).map((e) => FriendInfo.fromJson(e)).toList();
     for (var element in oldFriends) {print(element.name);}
 
-    print('bloc new');
     var newFriends = (await repository.searchFriends(searchText)).map((e) => FriendInfo.fromJson(e)).toList();
     for (var element in newFriends) {print(element.name);}
 
-    print('bloc result');
     var result = newFriends.where((element) => !oldFriends.contains(element)).toList();
     for (var element in result) {print(element.name);}
 

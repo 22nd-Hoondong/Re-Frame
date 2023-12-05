@@ -60,14 +60,17 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
               return ListView.builder(
                   itemCount: result.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return result[index].name.contains(_searchText)
-                        ? ListTile(
-                            title: Text(result[index].name),
-                            subtitle: Text(result[index].email),
-                            onTap: () {},
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                          )
-                        : const SizedBox();
+                    if (result[index].name.contains(_searchText) ||
+                        result[index].email.contains(_searchText)) {
+                      return ListTile(
+                        title: Text(result[index].name),
+                        subtitle: Text(result[index].email),
+                        onTap: () {},
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
                   });
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error'));
@@ -82,7 +85,6 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
 
   @override
   void onPageVisible() {
-    print('changed to friends');
     MyHomePage.of(context)?.params = AppBarParams.setValue(
         const Text('친구 목록'),
         [
@@ -95,16 +97,5 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
           )
         ],
         defaultColor);
-  }
-}
-
-class FriendInfo {
-  final String name;
-  final String uid;
-
-  const FriendInfo(this.name, this.uid);
-
-  static FriendInfo fromJson(Map<String, dynamic> e) {
-    return FriendInfo(e['name'], e['id']);
   }
 }

@@ -198,6 +198,5 @@ class _CalendarState extends State<Calendar>
 
   @override
   void onPageVisible() {
-    print('changed to calendar');
   }
 }
