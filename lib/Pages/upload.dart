@@ -2,9 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:re_frame/Bloc/friend_bloc.dart';
+import 'package:re_frame/Models/friend_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
+  static final FriendBloc bloc = FriendBloc();
 
   @override
   State<UploadScreen> createState() => _UploadScreenState();
@@ -14,17 +20,16 @@ class _UploadScreenState extends State<UploadScreen> {
   List<XFile?> imageList = List<XFile?>.filled(5, null);
   final ImagePicker picker = ImagePicker();
   int selected = 0;
-
   DateTime date = DateTime.now();
-  String _dropvalue = '';
-  final _droplist = ['친구1', '친구2'];
+  final _titleEditController = TextEditingController();
+  final _contentEditController = TextEditingController();
+  List<FriendInfo> addFriendList = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      _dropvalue = _droplist[0];
-    });
+    UploadScreen.bloc.getFriends();
   }
 
   Future getImage(ImageSource imageSource, int index) async {
@@ -48,6 +53,14 @@ class _UploadScreenState extends State<UploadScreen> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              TextField(
+                controller: _titleEditController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Title'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 height: 90,
                 child: GridView.builder(
@@ -105,7 +118,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text('Choose date'),
+                    const Text('Date'),
                     TextButton(
                       onPressed: () async {
                         final selectedDate = await showDatePicker(
@@ -127,43 +140,167 @@ class _UploadScreenState extends State<UploadScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const TextField(
+              TextField(
                 keyboardType: TextInputType.multiline,
+                controller: _contentEditController,
                 maxLines: null,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Input your text'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Context'),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Choose your friend',
-                textAlign: TextAlign.left,
+              StreamBuilder(
+                stream: UploadScreen.bloc.stream,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return TextButton(
+                    child: Text('Add Friend'),
+                    onPressed: () {
+                      if (snapshot.hasData) {
+                        var friendList = snapshot.data as List<FriendInfo>;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 90,
+                                  color: const Color(0xffFFC1B4),
+                                  child: const Center(
+                                    child: Text(
+                                      'Your friend list',
+                                      style: TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: friendList.length,
+                                    itemBuilder: (BuildContext context, int idx) {
+                                      return TextButton(
+                                        child: Text(friendList[idx].name),
+                                        onPressed: () {
+                                          if (!addFriendList.contains(friendList[idx])) {
+                                            setState(() {
+                                              addFriendList.add(friendList[idx]);
+                                            });
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }
+                      else {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 90,
+                              color: const Color(0xffFFC1B4),
+                              child: const Center(
+                                child: Text(
+                                  'You have no Friend',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        );
+                      }
+                    },
+                  );
+                }
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 30,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: addFriendList.length,
+                  itemBuilder: (BuildContext context, int idx) {
+                    return ElevatedButton(
+                      child: Text(addFriendList[idx].name),
+                      onPressed: () {
+                        setState(() {
+                          addFriendList.remove(addFriendList[idx]);
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
-              DropdownButtonFormField(
-                  isExpanded: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  value: _dropvalue,
-                  items: _droplist
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _dropvalue = value!;
-                    });
-                  }),
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (selected == 0 || _titleEditController.text == '') {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: const Padding(
+                              padding: EdgeInsets.only(top: 15.0),
+                              child: Text('The title or photo must be created.', style: TextStyle(fontSize: 15),),
+                            ),
+                            actions: [
+                              Center(
+                                child: TextButton(
+                                  child: const Text('Yes'),
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    }
+                    else {
+                      final currentUser = FirebaseAuth.instance.currentUser;
+                      List nowImages = [];
+                      var nowPost = await FirebaseFirestore.instance.collection('posts').add({
+                        'title': _titleEditController.text,
+                        'date': date,
+                        'people': List.generate(addFriendList.length, (index) => addFriendList[index].uid),
+                        'content': _contentEditController.text,
+                      });
+                      print(currentUser!.uid);
+                      print(nowPost.id);
+                      FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).collection('posts').doc(nowPost.id).set({'id': nowPost.id});
+
+                      for (var x = 0; x < 5; x++) {
+                        if (imageList[x] != null) {
+                          var nowImage = await FirebaseFirestore.instance.collection('photos').add({
+                            'colSize': 1,
+                            'rowSize': 1,
+                            'post': nowPost.id,
+                          });
+                          nowImages.add(nowImage.id);
+                          FirebaseStorage.instance.ref('${nowImage.id}.png').putFile(File(imageList[x]!.path));
+                          print(nowImage.id);
+                          //nowImages.add(nowImage);
+                        }
+                      }
+                      nowPost.update({
+                        'photos': nowImages,
+                      });
+                      if(!mounted) return;
+                      Navigator.pop(context);
+                    }
+                  },
                   child: const Text('Post'),
                 ),
               ),
