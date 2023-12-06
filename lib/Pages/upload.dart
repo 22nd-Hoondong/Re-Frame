@@ -271,16 +271,19 @@ class _UploadScreenState extends State<UploadScreen> {
                     else {
                       final currentUser = FirebaseAuth.instance.currentUser;
                       List nowImages = [];
+                      List people = List.generate(addFriendList.length, (index) => addFriendList[index].uid);
+                      people.add(currentUser!.uid);
                       var nowPost = await FirebaseFirestore.instance.collection('posts').add({
                         'title': _titleEditController.text,
                         'date': date,
-                        'people': List.generate(addFriendList.length, (index) => addFriendList[index].uid),
+                        'people': people,
                         'content': _contentEditController.text,
                       });
                       print(currentUser!.uid);
                       print(nowPost.id);
-                      FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).collection('posts').doc(nowPost.id).set({'id': nowPost.id});
-
+                      for (var x in people) {
+                        FirebaseFirestore.instance.collection('users').doc(x).collection('posts').doc(nowPost.id).set({'id': nowPost.id});
+                      }
                       for (var x = 0; x < 5; x++) {
                         if (imageList[x] != null) {
                           var nowImage = await FirebaseFirestore.instance.collection('photos').add({
