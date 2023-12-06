@@ -45,7 +45,7 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload'),
+        title: const Text('사진 / 글 작성'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -56,7 +56,7 @@ class _UploadScreenState extends State<UploadScreen> {
               TextField(
                 controller: _titleEditController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Title'),
+                    border: OutlineInputBorder(), labelText: '제목'),
               ),
               const SizedBox(
                 height: 20,
@@ -94,7 +94,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           selected++;
                         });
                       },
-                      child: const Text('Camera')),
+                      child: const Text('카메라')),
                   const SizedBox(
                     width: 30,
                   ),
@@ -105,7 +105,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           selected++;
                         });
                       },
-                      child: const Text('Gallary')),
+                      child: const Text('갤러리')),
                 ],
               ),
               const SizedBox(
@@ -118,7 +118,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text('Date'),
+                    const Text('날짜'),
                     TextButton(
                       onPressed: () async {
                         final selectedDate = await showDatePicker(
@@ -145,7 +145,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 controller: _contentEditController,
                 maxLines: null,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Context'),
+                    border: OutlineInputBorder(), labelText: '내용'),
               ),
               const SizedBox(
                 height: 20,
@@ -154,7 +154,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 stream: UploadScreen.bloc.stream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return TextButton(
-                    child: Text('Add Friend'),
+                    child: Text('친구 추가'),
                     onPressed: () {
                       if (snapshot.hasData) {
                         var friendList = snapshot.data as List<FriendInfo>;
@@ -169,7 +169,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   color: const Color(0xffFFC1B4),
                                   child: const Center(
                                     child: Text(
-                                      'Your friend list',
+                                      '친구 목록',
                                       style: TextStyle(color: Colors.white),
                                       textAlign: TextAlign.center,
                                     ),
@@ -207,7 +207,7 @@ class _UploadScreenState extends State<UploadScreen> {
                               color: const Color(0xffFFC1B4),
                               child: const Center(
                                 child: Text(
-                                  'You have no Friend',
+                                  '친구가 없습니다!',
                                   style: TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
@@ -252,12 +252,12 @@ class _UploadScreenState extends State<UploadScreen> {
                           return AlertDialog(
                             content: const Padding(
                               padding: EdgeInsets.only(top: 15.0),
-                              child: Text('The title or photo must be created.', style: TextStyle(fontSize: 15),),
+                              child: Text('제목과 사진은 필수입니다!', style: TextStyle(fontSize: 15),),
                             ),
                             actions: [
                               Center(
                                 child: TextButton(
-                                  child: const Text('Yes'),
+                                  child: const Text('알겠습니다.'),
                                   onPressed: (){
                                     Navigator.pop(context);
                                   },
@@ -304,7 +304,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text('Post'),
+                  child: const Text('업로드'),
                 ),
               ),
             ],
