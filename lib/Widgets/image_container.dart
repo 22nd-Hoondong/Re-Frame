@@ -31,14 +31,13 @@ class _ImageContainerState extends State<ImageContainer> {
     getImageIntoSharedPref();
   }
 
-  void getImageIntoSharedPref() async {
+  Future<Uint8List?> getImageIntoSharedPref() async {
+    Uint8List? imageReturn;
     pref = await SharedPreferences.getInstance();
-    print("---");
-    print(pref.getKeys());
-    print(widget.photoId);
-    print("---");
     String? printableString = pref.get("${widget.photoId}") as String?;
-    imageData = printableString != null ? base64.decode(printableString) : null;
+    imageReturn =
+        printableString != null ? base64.decode(printableString) : null;
+    return imageReturn;
   }
 
   @override
