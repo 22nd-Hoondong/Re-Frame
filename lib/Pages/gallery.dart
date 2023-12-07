@@ -31,14 +31,17 @@ class _GalleryState extends State<Gallery>
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 0,
                 ),
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 1,
                 ),
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 2,
                 ),
               ],
             ),
@@ -48,14 +51,17 @@ class _GalleryState extends State<Gallery>
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 3,
                 ),
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 4,
                 ),
                 ImageContainer(
                   height: 200,
                   width: 100,
+                  photoId: 5,
                 ),
               ],
             )
