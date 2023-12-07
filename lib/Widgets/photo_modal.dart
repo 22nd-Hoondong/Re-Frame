@@ -11,7 +11,7 @@ class PhotoModal extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Reference storageRef = FirebaseStorage.instance.ref();
 
-  Future<Set<String>> getUserIdList() async {
+  Future<Set<String>> getPhotoIdList() async {
     Set<String> idSet = {};
     final userPostCollectionRef = await db
         .collection("users/${_firebaseAuth.currentUser?.uid}/posts")
@@ -33,7 +33,7 @@ class PhotoModal extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         body: FutureBuilder(
-          future: getUserIdList(),
+          future: getPhotoIdList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.count(
