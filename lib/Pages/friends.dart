@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:re_frame/Bloc/friend_bloc.dart';
 import 'package:re_frame/main.dart';
-
-import '../Models/friend_model.dart';
-import 'add_friends.dart';
+import 'package:re_frame/Models/friend_model.dart';
+import 'package:re_frame/Pages/add_friends.dart';
 
 class Friends extends StatefulWidget {
   const Friends({super.key});

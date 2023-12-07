@@ -14,9 +14,7 @@ class Calendar extends StatefulWidget {
   State<Calendar> createState() => _CalendarState();
 }
 
-class _CalendarState extends State<Calendar>
-    with MyHomePageStateMixin {
-
+class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
   late final ValueNotifier<List<Post>> _selectedEvents;
   FirebaseFirestore db = FirebaseFirestore.instance;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -153,7 +151,8 @@ class _CalendarState extends State<Calendar>
               return Container(
                 width: 35,
                 decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
+                    color: Colors.blue.withOpacity(0.2),
+                    shape: BoxShape.circle),
               );
             }
             return null;

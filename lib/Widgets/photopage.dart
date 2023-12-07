@@ -5,6 +5,7 @@ class PhotoPage extends StatelessWidget {
   final List<dynamic> photos;
   final PageController pageController;
   final Reference storageRef = FirebaseStorage.instance.ref();
+
   PhotoPage({super.key, required this.photos, required this.pageController});
 
   @override
