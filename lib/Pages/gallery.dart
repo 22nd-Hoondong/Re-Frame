@@ -17,42 +17,26 @@ class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
           image: DecorationImage(
               image: AssetImage("images/cork_board.jpg"), fit: BoxFit.fill),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-              ],
+              children: List.generate(
+                  3,
+                  (index) => const ImageContainer(
+                        height: 220,
+                        width: 100,
+                      )),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                ),
-              ],
+              children: List.generate(
+                  3,
+                  (index) => const ImageContainer(
+                        height: 220,
+                        width: 100,
+                      )),
             )
           ],
         ));
