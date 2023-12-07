@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,24 @@ import 'package:flutter/material.dart';
 class PhotoModal extends StatelessWidget {
   PhotoModal({super.key});
 
-  final db = FirebaseFirestore.instance;
-  final storageRef = FirebaseStorage.instance.ref();
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Reference storageRef = FirebaseStorage.instance.ref();
+
+  Future<Set<String>> getUserIdList() async {
+    Set<String> idSet = {};
+    final userPostCollectionRef = await db
+        .collection("users/${_firebaseAuth.currentUser?.uid}/posts")
+        .get();
+    for (var element in userPostCollectionRef.docs) {
+      final userDoc = await db.collection("posts").doc(element.id).get();
+      Map<String, dynamic> userData = userDoc.data()!;
+      for (var id in userData["photos"]) {
+        idSet.add(id);
+      }
+    }
+    return idSet;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +32,17 @@ class PhotoModal extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
-        body: StreamBuilder(
-          stream: db.collection("photos").snapshots(),
+        body: FutureBuilder(
+          future: getUserIdList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // user.id
               return GridView.count(
                 crossAxisCount: 3,
-                children: snapshot.data!.docs.map(
+                children: snapshot.data!.map(
                   (element) {
                     return FutureBuilder(
                       future: storageRef
-                          .child("${element.id}.png")
+                          .child("$element.png")
                           .getData(10000 * 10000),
                       builder: (context, snapshots) {
                         if (snapshots.hasData) {
