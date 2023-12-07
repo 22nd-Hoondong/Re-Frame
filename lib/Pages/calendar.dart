@@ -118,82 +118,92 @@ class _CalendarState extends State<Calendar>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    return Column(children: [
-      TableCalendar<Post>(
-        locale: 'ko_KR',
-        firstDay: kFirstDay,
-        lastDay: kLastDay,
-        focusedDay: _focusedDay,
-        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-        rangeStartDay: _rangeStart,
-        rangeEndDay: _rangeEnd,
-        calendarFormat: _calendarFormat,
-        rangeSelectionMode: _rangeSelectionMode,
-        eventLoader: _getEventsForDay,
-        startingDayOfWeek: StartingDayOfWeek.monday,
-        calendarStyle: const CalendarStyle(
-          // Use `CalendarStyle` to customize the UI
-          outsideDaysVisible: false,
-        ),
-        onDaySelected: _onDaySelected,
-        onRangeSelected: _onRangeSelected,
-        onFormatChanged: (format) {
-          if (_calendarFormat != format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          }
-        },
-        onPageChanged: (focusedDay) {
-          _focusedDay = focusedDay;
-        },
-        calendarBuilders:
-            CalendarBuilders(markerBuilder: (context, date, dynamic event) {
-          if (event.isNotEmpty) {
-            return Container(
-              width: 35,
-              decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
-            );
-          }
-          return null;
-        }),
-      ),
-      const SizedBox(height: 8.0),
-      Expanded(
-        child: ValueListenableBuilder<List<Post>>(
-          valueListenable: _selectedEvents,
-          builder: (context, value, _) {
-            return ListView.builder(
-              itemCount: value.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  PostModal(post: value[index])));
-                    },
-                    title: Text('${value[index]}'),
-                  ),
-                );
-              },
-            );
+    return Container(
+      color: defaultBackgroundColor,
+      child: Column(children: [
+        TableCalendar<Post>(
+          locale: 'ko_KR',
+          firstDay: kFirstDay,
+          lastDay: kLastDay,
+          focusedDay: _focusedDay,
+          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+          rangeStartDay: _rangeStart,
+          rangeEndDay: _rangeEnd,
+          calendarFormat: _calendarFormat,
+          rangeSelectionMode: _rangeSelectionMode,
+          eventLoader: _getEventsForDay,
+          startingDayOfWeek: StartingDayOfWeek.monday,
+          calendarStyle: const CalendarStyle(
+            // Use `CalendarStyle` to customize the UI
+            outsideDaysVisible: false,
+          ),
+          onDaySelected: _onDaySelected,
+          onRangeSelected: _onRangeSelected,
+          onFormatChanged: (format) {
+            if (_calendarFormat != format) {
+              setState(() {
+                _calendarFormat = format;
+              });
+            }
           },
+          onPageChanged: (focusedDay) {
+            _focusedDay = focusedDay;
+          },
+          calendarBuilders:
+              CalendarBuilders(markerBuilder: (context, date, dynamic event) {
+            if (event.isNotEmpty) {
+              return Container(
+                width: 35,
+                decoration: BoxDecoration(
+                    color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
+              );
+            }
+            return null;
+          }),
         ),
-      ),
-    ]);
+        const SizedBox(height: 8.0),
+        Expanded(
+          child: ValueListenableBuilder<List<Post>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 4.0,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PostModal(post: value[index])));
+                      },
+                      title: Text('${value[index]}'),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ]),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      onPageVisible();
+    });
   }
 
   @override

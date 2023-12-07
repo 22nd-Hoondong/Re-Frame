@@ -36,54 +36,57 @@ class _SettingState extends State<Setting> with AutomaticKeepAliveClientMixin, M
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-            child: Text('${loggedUser!.displayName}', style: TextStyle(fontSize: 30, color: Colors.black,))
-        ),
-        SizedBox(height: 10,),
-        Container(
-            child: Text('${loggedUser!.email}', style: TextStyle(fontSize: 15, color: Colors.black,))
-        ),
-        SizedBox(height: 20,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlinedButton(onPressed: (){
-              signOutGoogle();
-            }, child: const Text('로그아웃'),
-            style: OutlinedButton.styleFrom(
-              primary: Colors.black,
-              backgroundColor: Colors.white,
-              shadowColor: Colors.grey,
-              elevation: 3,
-              side: BorderSide(color: Colors.transparent),
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-            )),
-            SizedBox(width: 30,),
-            OutlinedButton(onPressed: (){
-              deleteAccount();
-            }, child: const Text('회원 탈퇴'),
-                style: OutlinedButton.styleFrom(
-                  primary: Colors.black,
-                  backgroundColor: Colors.white,
-                  shadowColor: Colors.grey,
-                  elevation: 3,
-                  side: BorderSide(color: Colors.transparent),
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
-                )),
-          ],
-        ),
-        SizedBox(height: 20,),
-        Text('ⓒ 2023. RE:Frame All Rights Reserved.', style: TextStyle(color: Colors.grey,)),
-      ],
+    return Container(
+      color: defaultBackgroundColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+              child: Text('${loggedUser!.displayName}', style: TextStyle(fontSize: 30, color: Colors.black,))
+          ),
+          SizedBox(height: 10,),
+          Container(
+              child: Text('${loggedUser!.email}', style: TextStyle(fontSize: 15, color: Colors.black,))
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton(onPressed: (){
+                signOutGoogle();
+              }, child: const Text('로그아웃'),
+              style: OutlinedButton.styleFrom(
+                primary: Colors.black,
+                backgroundColor: Colors.white,
+                shadowColor: Colors.grey,
+                elevation: 3,
+                side: BorderSide(color: Colors.transparent),
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+              )),
+              SizedBox(width: 30,),
+              OutlinedButton(onPressed: (){
+                deleteAccount();
+              }, child: const Text('회원 탈퇴'),
+                  style: OutlinedButton.styleFrom(
+                    primary: Colors.black,
+                    backgroundColor: Colors.white,
+                    shadowColor: Colors.grey,
+                    elevation: 3,
+                    side: BorderSide(color: Colors.transparent),
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                  )),
+            ],
+          ),
+          SizedBox(height: 20,),
+          Text('ⓒ 2023. RE:Frame All Rights Reserved.', style: TextStyle(color: Colors.grey,)),
+        ],
+      ),
     );
   }
 
@@ -98,6 +101,14 @@ class _SettingState extends State<Setting> with AutomaticKeepAliveClientMixin, M
     users.doc(loggedUser!.uid).delete();
     loggedUser?.delete();
     await signOutGoogle();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      onPageVisible();
+    });
   }
 
   @override

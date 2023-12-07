@@ -64,6 +64,14 @@ class _GalleryState extends State<Gallery>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      onPageVisible();
+    });
+  }
+
+  @override
   void onPageVisible() {
     MyHomePage.of(context)?.params = AppBarParams();
   }

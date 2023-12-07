@@ -22,6 +22,7 @@ void main() async {
 }
 
 Color defaultColor = const Color(0xffFFC1B4);
+Color defaultBackgroundColor = const Color(0xFFFFF3EE);
 
 class AppBarParams {
   Widget title;
@@ -109,11 +110,23 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _page != 0 ? AppBar(
         title: _params.title,
         actions: _params.actions,
-        backgroundColor: _params.backgroundColor,
-      ),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                _params.backgroundColor,
+                defaultBackgroundColor,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        )
+        ) : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
