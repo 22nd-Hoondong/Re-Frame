@@ -165,11 +165,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _onPageChanged(int page) {
-    _pageKeys[page].currentState?.onPageVisible();
     setState(() => _page = page);
-    print('changed $_page');
-    print(_pageKeys[_page].currentContext);
-    print(_pageKeys[_page].currentState);
   }
 }
 
