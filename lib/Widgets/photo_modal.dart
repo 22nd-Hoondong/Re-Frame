@@ -15,38 +15,41 @@ class PhotoModal extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
-        body: FutureBuilder(
-          future: db.collection("photos").get(),
+        body: StreamBuilder(
+          stream: db.collection("photos").snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              // user.id
               return GridView.count(
                 crossAxisCount: 3,
-                children: snapshot.data!.docs
-                    .map((element) => FutureBuilder(
-                          future: storageRef
-                              .child("${element.id}.png")
-                              .getData(10000 * 10000),
-                          builder: (context, snapshots) {
-                            if (snapshots.hasData) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context, snapshots.data);
-                                },
-                                child: Image.memory(
-                                  snapshots.data!,
-                                  width: 150,
-                                  height: 150,
-                                ),
-                              );
-                            }
-                            return const SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          },
-                        ))
-                    .toList(),
+                children: snapshot.data!.docs.map(
+                  (element) {
+                    return FutureBuilder(
+                      future: storageRef
+                          .child("${element.id}.png")
+                          .getData(10000 * 10000),
+                      builder: (context, snapshots) {
+                        if (snapshots.hasData) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context, snapshots.data);
+                            },
+                            child: Image.memory(
+                              snapshots.data!,
+                              width: 150,
+                              height: 150,
+                            ),
+                          );
+                        }
+                        return const SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      },
+                    );
+                  },
+                ).toList(),
               );
             }
             return const Center(
