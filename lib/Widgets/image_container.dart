@@ -1,16 +1,20 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:re_frame/Widgets/photo_modal.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class ImageContainer extends StatefulWidget {
   final double width, height;
+  final int photoId;
 
   const ImageContainer({
     super.key,
     required this.width,
     required this.height,
+    required this.photoId,
   });
 
   @override
@@ -19,6 +23,23 @@ class ImageContainer extends StatefulWidget {
 
 class _ImageContainerState extends State<ImageContainer> {
   Uint8List? imageData;
+  late final SharedPreferences pref;
+
+  @override
+  void initState() {
+    super.initState();
+    getImageIntoSharedPref();
+  }
+
+  void getImageIntoSharedPref() async {
+    pref = await SharedPreferences.getInstance();
+    print("---");
+    print(pref.getKeys());
+    print(widget.photoId);
+    print("---");
+    String? printableString = pref.get("${widget.photoId}") as String?;
+    imageData = printableString != null ? base64.decode(printableString) : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +47,11 @@ class _ImageContainerState extends State<ImageContainer> {
       onTap: () async {
         imageData = await Navigator.push(
             context, MaterialPageRoute(builder: (context) => PhotoModal()));
-        setState(() {});
+        if (imageData != null) {
+          String printableString = base64.encode(imageData!);
+          await pref.setString("${widget.photoId}", printableString);
+          setState(() {});
+        }
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -58,10 +83,12 @@ class _ImageContainerState extends State<ImageContainer> {
                           SizedBox(
                             width: 100,
                             child: TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 setState(() {
                                   imageData = null;
                                 });
+                                await pref.remove("${widget.photoId}");
+                                if (!mounted) return;
                                 Navigator.of(context).pop();
                               },
                               child: const Text(
