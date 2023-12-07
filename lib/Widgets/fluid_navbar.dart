@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:re_frame/main.dart';
 
 class FluidNavBar extends StatefulWidget {
   final PageController pageController;
@@ -34,8 +35,10 @@ class FluidNavBarState extends State<FluidNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      height: 70,
+      color: defaultBackgroundColor,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: _navItems.map((item) {
           var index = _navItems.indexOf(item);
           if (index == 2) {
@@ -45,6 +48,7 @@ class FluidNavBarState extends State<FluidNavBar> {
             );
           }
           return IconButton(
+            padding: const EdgeInsets.all(0),
             onPressed: () => _onNavItemTapped(index),
             icon: Icon(
               item.icon,
