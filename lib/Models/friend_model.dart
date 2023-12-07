@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
-class FriendInfo {
+class FriendInfo extends Equatable{
   late String name;
   late String uid;
   late String email;
@@ -34,4 +35,8 @@ class FriendInfo {
           name == other.name &&
           uid == other.uid &&
           email == other.email;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [name, email, uid];
 }
