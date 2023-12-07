@@ -12,7 +12,7 @@ class Setting extends StatefulWidget {
   State<Setting> createState() => _SettingState();
 }
 
-class _SettingState extends State<Setting> with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
+class _SettingState extends State<Setting> with MyHomePageStateMixin {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? loggedUser;

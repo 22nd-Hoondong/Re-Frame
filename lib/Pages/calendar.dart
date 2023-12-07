@@ -15,9 +15,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar>
-    with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
-  @override
-  bool get wantKeepAlive => true;
+    with MyHomePageStateMixin {
 
   late final ValueNotifier<List<Post>> _selectedEvents;
   FirebaseFirestore db = FirebaseFirestore.instance;
