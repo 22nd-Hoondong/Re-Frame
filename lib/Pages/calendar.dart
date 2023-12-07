@@ -36,30 +36,31 @@ class _CalendarState extends State<Calendar>
   ); // cascade notation.
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  void getFirebasePosts() async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await db.collection("posts").get();
-    for (var element in querySnapshot.docs) {
-      Map<String, dynamic> postData = element.data();
-      List<dynamic> peopleList = postData['people'];
-      if (peopleList.contains(_firebaseAuth.currentUser?.uid)) {
-        Timestamp firebaseDate = postData["date"];
-        DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
-        Post newPostObj = Post(
-            title: postData["title"],
-            content: postData["content"],
-            date: postDate,
-            people: postData["people"],
-            photos: postData["photos"]);
-        setState(() {
-          if (kEvents.containsKey(postDate)) {
-            kEvents[postDate]!.add(newPostObj);
-          } else {
-            kEvents[postDate] = [newPostObj];
-          }
-        });
+  void getFirebasePosts() {
+    CollectionReference postRef = db.collection("posts");
+    postRef.snapshots().listen((event) {
+      for (var element in event.docs) {
+        Map<String, dynamic> postData = element.data() as Map<String, dynamic>;
+        List<dynamic> peopleList = postData['people'];
+        if (peopleList.contains(_firebaseAuth.currentUser?.uid)) {
+          Timestamp firebaseDate = postData["date"];
+          DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
+          Post newPostObj = Post(
+              title: postData["title"],
+              content: postData["content"],
+              date: postDate,
+              people: postData["people"],
+              photos: postData["photos"]);
+          setState(() {
+            if (kEvents.containsKey(postDate)) {
+              kEvents[postDate]!.add(newPostObj);
+            } else {
+              kEvents[postDate] = [newPostObj];
+            }
+          });
+        }
       }
-    }
+    });
   }
 
   @override
