@@ -115,6 +115,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     child: TextButton(
                                       onPressed: () {
                                         setState(() {
+                                          selected--;
                                           imageList[index] = null;
                                           for (var x = index; x < 4; x++) {
                                             var temp = imageList[x];
