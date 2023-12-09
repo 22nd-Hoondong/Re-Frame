@@ -91,7 +91,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       onPressed: () {
                         getImage(ImageSource.camera, selected);
                         setState(() {
-                          selected++;
+                          if (imageList[selected] != null) selected++;
                         });
                       },
                       child: const Text('카메라')),
@@ -102,7 +102,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       onPressed: () {
                         getImage(ImageSource.gallery, selected);
                         setState(() {
-                          selected++;
+                          if (imageList[selected] != null) selected++;
                         });
                       },
                       child: const Text('갤러리')),
