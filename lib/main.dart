@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:re_frame/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
@@ -10,7 +10,6 @@ import 'package:re_frame/Pages/login.dart';
 import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/Pages/setting.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
-import 'package:re_frame/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,9 @@ void main() async {
   runApp(const MyApp());
 }
 
-Color defaultColor = const Color(0xffFFC1B4);
+Color pointColor = const Color(0xffffc5b6);
+Color backgroundColor = const Color(0xFFFFFDFD);
+Color darkBackgroundColor = const Color(0xFFFF7C5F);
 
 class AppBarParams {
   Widget title;
@@ -31,7 +32,7 @@ class AppBarParams {
   AppBarParams()
       : title = const Text(''),
         actions = [],
-        backgroundColor = defaultColor;
+        backgroundColor = pointColor;
 
   AppBarParams.setValue(this.title, this.actions, this.backgroundColor);
 }
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: defaultColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: pointColor, primary: pointColor, background: backgroundColor, surface: darkBackgroundColor),
         useMaterial3: true,
         fontFamily: 'GowunDodum',
       ),
@@ -109,11 +110,23 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _page != 0 ? AppBar(
         title: _params.title,
         actions: _params.actions,
-        backgroundColor: _params.backgroundColor,
-      ),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                _params.backgroundColor,
+                backgroundColor,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        )
+        ) : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
@@ -140,7 +153,7 @@ class MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: FluidNavBar(
         pageController: _pageController,
-        defaultColor: defaultColor,
+        defaultColor: pointColor,
       ),
     );
   }
@@ -152,11 +165,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _onPageChanged(int page) {
-    _pageKeys[page].currentState?.onPageVisible();
     setState(() => _page = page);
-    print('changed $_page');
-    print(_pageKeys[_page].currentContext);
-    print(_pageKeys[_page].currentState);
   }
 }
 

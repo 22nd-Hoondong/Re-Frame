@@ -154,7 +154,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 stream: UploadScreen.bloc.stream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return TextButton(
-                    child: Text('친구 추가'),
+                    child: const Text('친구 추가'),
                     onPressed: () {
                       if (snapshot.hasData) {
                         var friendList = snapshot.data as List<FriendInfo>;

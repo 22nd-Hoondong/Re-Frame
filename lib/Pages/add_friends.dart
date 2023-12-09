@@ -22,7 +22,7 @@ class _AddFriendsState extends State<AddFriends> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: defaultColor,
+        backgroundColor: pointColor,
         title: const Text('친구 추가'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

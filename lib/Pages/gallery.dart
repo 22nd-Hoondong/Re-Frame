@@ -9,64 +9,47 @@ class Gallery extends StatefulWidget {
   State<Gallery> createState() => _GalleryState();
 }
 
-class _GalleryState extends State<Gallery>
-    with AutomaticKeepAliveClientMixin, MyHomePageStateMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("images/cork_board.jpg"), fit: BoxFit.fill),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 0,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 1,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 2,
-                ),
-              ],
+              children: List.generate(
+                  3,
+                  (index) => ImageContainer(
+                        height: 220,
+                        width: 100,
+                        photoId: index,
+                      )),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 3,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 4,
-                ),
-                ImageContainer(
-                  height: 200,
-                  width: 100,
-                  photoId: 5,
-                ),
-              ],
+              children: List.generate(
+                  3,
+                  (index) => ImageContainer(
+                        height: 220,
+                        width: 100,
+                        photoId: index + 3,
+                      )),
             )
           ],
         ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      onPageVisible();
+    });
   }
 
   @override
