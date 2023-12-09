@@ -102,8 +102,8 @@ class _UploadScreenState extends State<UploadScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
-                        getImage(ImageSource.camera, selected);
+                      onPressed: () async {
+                        await getImage(ImageSource.camera, selected);
                         setState(() {
                           if (imageList[selected] != null) selected++;
                         });
@@ -113,8 +113,8 @@ class _UploadScreenState extends State<UploadScreen> {
                     width: 30,
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        getImage(ImageSource.gallery, selected);
+                      onPressed: () async {
+                        await getImage(ImageSource.gallery, selected);
                         setState(() {
                           if (imageList[selected] != null) selected++;
                         });
