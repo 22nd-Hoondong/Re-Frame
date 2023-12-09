@@ -42,4 +42,8 @@ class FriendBloc {
   void addFriend(FriendInfo friend) async {
     await repository.addFriend(friend.toSnapshot());
   }
+
+  void removeFriend(FriendInfo friend) async {
+    await repository.removeFriend(friend.toSnapshot());
+  }
 }
