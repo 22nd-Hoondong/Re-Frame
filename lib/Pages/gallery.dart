@@ -24,7 +24,7 @@ class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                   3,
-                  (index) => const ImageContainer(
+                  (index) => ImageContainer(
                         height: 220,
                         width: 100,
                         photoId: index,
@@ -34,7 +34,7 @@ class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                   3,
-                  (index) => const ImageContainer(
+                  (index) => ImageContainer(
                         height: 220,
                         width: 100,
                         photoId: index + 3,
