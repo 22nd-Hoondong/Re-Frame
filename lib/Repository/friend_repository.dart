@@ -41,4 +41,13 @@ class FriendRepository {
         .doc(friend['uid'])
         .set(friend);
   }
+
+  Future<void> removeFriend(Map<String, dynamic> friend) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('friends')
+        .doc(friend['uid'])
+        .delete();
+  }
 }

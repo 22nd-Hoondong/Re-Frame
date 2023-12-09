@@ -58,20 +58,34 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
               if (snapshot.hasData) {
                 var result = snapshot.data as List<FriendInfo>;
                 return ListView.builder(
-                    itemCount: result.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (result[index].name.contains(_searchText) ||
-                          result[index].email.contains(_searchText)) {
-                        return ListTile(
+                  itemCount: result.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (result[index].name.contains(_searchText) ||
+                        result[index].email.contains(_searchText)) {
+                      return Dismissible(
+                        key: Key(result[index].uid),
+                        onDismissed: (direction) {
+                          Friends.bloc.removeFriend(result[index]);
+                          setState(() {
+                            result.removeAt(index);
+                          });
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          child: Icon(Icons.delete, color: Colors.white),
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: 16.0),
+                        ),
+                        child: ListTile(
                           title: Text(result[index].name),
                           subtitle: Text(result[index].email),
-                          onTap: () {},
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    });
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                );
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Error'));
               } else {
