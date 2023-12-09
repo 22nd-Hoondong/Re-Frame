@@ -27,6 +27,7 @@ class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
                   (index) => const ImageContainer(
                         height: 220,
                         width: 100,
+                        photoId: index,
                       )),
             ),
             Row(
@@ -36,6 +37,7 @@ class _GalleryState extends State<Gallery> with MyHomePageStateMixin {
                   (index) => const ImageContainer(
                         height: 220,
                         width: 100,
+                        photoId: index + 3,
                       )),
             )
           ],
