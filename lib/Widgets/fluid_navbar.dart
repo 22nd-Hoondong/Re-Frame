@@ -37,7 +37,7 @@ class FluidNavBarState extends State<FluidNavBar> {
   Widget build(BuildContext context) {
     return BottomAppBar(
       height: 70,
-      color: defaultBackgroundColor,
+      color: backgroundColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: _navItems.map((item) {
@@ -51,7 +51,7 @@ class FluidNavBarState extends State<FluidNavBar> {
             icon: Icon(
               item.icon,
               color:
-                  _selectedIndex == index ? widget.defaultColor : Colors.grey,
+                  _selectedIndex == index ? darkBackgroundColor : Colors.grey,
             ),
           );
         }).toList(),

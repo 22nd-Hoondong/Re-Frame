@@ -26,7 +26,7 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: defaultBackgroundColor,
+      color: backgroundColor,
       child: Column(
         children: [
           Padding(
@@ -105,6 +105,6 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
             },
           )
         ],
-        defaultColor);
+        pointColor);
   }
 }

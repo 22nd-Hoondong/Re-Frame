@@ -115,7 +115,7 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: defaultBackgroundColor,
+      color: backgroundColor,
       child: Column(children: [
         TableCalendar<Post>(
           locale: 'ko_KR',
@@ -151,7 +151,7 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
               return Container(
                 width: 35,
                 decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: pointColor.withOpacity(0.2),
                     shape: BoxShape.circle),
               );
             }

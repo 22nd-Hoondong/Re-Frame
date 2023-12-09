@@ -37,7 +37,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: defaultBackgroundColor,
+      color: backgroundColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

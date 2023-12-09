@@ -20,8 +20,9 @@ void main() async {
   runApp(const MyApp());
 }
 
-Color defaultColor = const Color(0xffFFC1B4);
-Color defaultBackgroundColor = const Color(0xFFFFF3EE);
+Color pointColor = const Color(0xffffc5b6);
+Color backgroundColor = const Color(0xFFFFFDFD);
+Color darkBackgroundColor = const Color(0xFFFF7C5F);
 
 class AppBarParams {
   Widget title;
@@ -31,7 +32,7 @@ class AppBarParams {
   AppBarParams()
       : title = const Text(''),
         actions = [],
-        backgroundColor = defaultColor;
+        backgroundColor = pointColor;
 
   AppBarParams.setValue(this.title, this.actions, this.backgroundColor);
 }
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: defaultColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: pointColor, primary: pointColor, background: backgroundColor, surface: darkBackgroundColor),
         useMaterial3: true,
         fontFamily: 'GowunDodum',
       ),
@@ -118,7 +119,7 @@ class MyHomePageState extends State<MyHomePage> {
             gradient: LinearGradient(
               colors: [
                 _params.backgroundColor,
-                defaultBackgroundColor,
+                backgroundColor,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -152,7 +153,7 @@ class MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: FluidNavBar(
         pageController: _pageController,
-        defaultColor: defaultColor,
+        defaultColor: pointColor,
       ),
     );
   }
