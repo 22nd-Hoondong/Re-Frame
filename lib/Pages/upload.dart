@@ -7,6 +7,7 @@ import 'package:re_frame/Models/friend_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:re_frame/main.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -94,7 +95,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           if (imageList[selected] != null) selected++;
                         });
                       },
-                      child: const Text('카메라')),
+                      child: Text('카메라', style: TextStyle(color: darkBackgroundColor),)),
                   const SizedBox(
                     width: 30,
                   ),
@@ -105,7 +106,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           if (imageList[selected] != null) selected++;
                         });
                       },
-                      child: const Text('갤러리')),
+                      child: Text('갤러리', style: TextStyle(color: darkBackgroundColor),)),
                 ],
               ),
               const SizedBox(
@@ -132,7 +133,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           });
                         }
                       },
-                      child: Text('${date.year}-${date.month}-${date.day}'),
+                      child: Text('${date.year}-${date.month}-${date.day}', style: TextStyle(color: darkBackgroundColor),),
                     ),
                   ],
                 ),
@@ -154,7 +155,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 stream: UploadScreen.bloc.stream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return TextButton(
-                    child: const Text('친구 추가'),
+                    child: Text('친구 추가', style: TextStyle(color: darkBackgroundColor),),
                     onPressed: () {
                       if (snapshot.hasData) {
                         var friendList = snapshot.data as List<FriendInfo>;
@@ -180,7 +181,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     itemCount: friendList.length,
                                     itemBuilder: (BuildContext context, int idx) {
                                       return TextButton(
-                                        child: Text(friendList[idx].name),
+                                        child: Text(friendList[idx].name, style: TextStyle(color: darkBackgroundColor),),
                                         onPressed: () {
                                           if (!addFriendList.contains(friendList[idx])) {
                                             setState(() {
@@ -304,7 +305,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text('업로드'),
+                  child: Text('업로드', style: TextStyle(color: darkBackgroundColor),),
                 ),
               ),
             ],

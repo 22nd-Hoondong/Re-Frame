@@ -45,9 +45,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: pointColor, primary: pointColor, background: backgroundColor),
-        useMaterial3: true,
-        fontFamily: 'GowunDodum',
+          colorScheme: ColorScheme.fromSeed(seedColor: pointColor,
+              primary: pointColor,
+              background: backgroundColor,
+              onPrimaryContainer: Colors.black),
+          useMaterial3: true,
+          fontFamily: 'GowunDodum',
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -111,22 +114,22 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _page != 0 ? AppBar(
-        title: _params.title,
-        actions: _params.actions,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _params.backgroundColor,
-                backgroundColor,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+          title: _params.title,
+          actions: _params.actions,
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  _params.backgroundColor,
+                  backgroundColor,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-        )
-        ) : null,
+          )
+      ) : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
