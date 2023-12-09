@@ -93,7 +93,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   Future<void> signOutGoogle() async {
     await _firebaseAuth.signOut();
     await GoogleSignIn().signOut();
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
+    Navigator.of(context).popUntil((Route<dynamic> route) => false);
   }
 
   Future<void> deleteAccount() async {
