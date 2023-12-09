@@ -47,6 +47,7 @@ dependencies:
   firebase_auth: ^4.12.1
   google_sign_in: ^6.1.5
   smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
