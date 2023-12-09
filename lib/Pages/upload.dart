@@ -86,16 +86,74 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
-                    return imageList[index] != null
-                        ? Image.file(File(imageList[index]!.path))
-                        : Container(
+                    return imageList[index] == null
+                        ? Container(
                             color: Colors.grey,
                             child: const Icon(
                               Icons.add,
                               color: Colors.white,
                             ),
-                          );
-                  },
+                        )
+                        : GestureDetector(
+                            onLongPress: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false, //바깥 영역 터치시 닫을지 여부 결정
+                                builder: (context) => AlertDialog(
+                                actionsAlignment: MainAxisAlignment.spaceBetween,
+                                backgroundColor: Colors.white,
+                                title: const Text(
+                                  "사진을 삭제하시겠습니까?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                actions: [
+                                  SizedBox(
+                                    width: 100,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selected--;
+                                          imageList[index] = null;
+                                          for (var x = index; x < 4; x++) {
+                                            var temp = imageList[x];
+                                            imageList[x] = imageList[x + 1];
+                                            imageList[x + 1] = temp;
+                                          }
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "네",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "아니오",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Image.file(File(imageList[index]!.path)),
+                        );
+                    },
                 ),
               ),
               Row(
