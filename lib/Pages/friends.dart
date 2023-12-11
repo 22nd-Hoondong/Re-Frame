@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:re_frame/Bloc/friend_bloc.dart';
+import 'package:re_frame/main.dart';
 import 'package:re_frame/Models/friend_model.dart';
 import 'package:re_frame/Pages/add_friends.dart';
-import 'package:re_frame/main.dart';
 
 class Friends extends StatefulWidget {
   const Friends({super.key});
@@ -71,9 +72,9 @@ class _FriendsState extends State<Friends> with MyHomePageStateMixin {
                         },
                         background: Container(
                           color: Colors.red,
+                          child: Icon(Icons.delete, color: Colors.white),
                           alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: const Icon(Icons.delete, color: Colors.white),
+                          padding: EdgeInsets.only(right: 16.0),
                         ),
                         child: ListTile(
                           title: Text(result[index].name),

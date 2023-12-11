@@ -3,7 +3,6 @@
 
 /// Example event class.
 class Post {
-  final String id;
   final String title;
   final String content;
   final DateTime date;
@@ -11,8 +10,7 @@ class Post {
   final List<dynamic> photos;
 
   Post(
-      {required this.id,
-      required this.title,
+      {required this.title,
       required this.content,
       required this.date,
       required this.people,
@@ -20,7 +18,6 @@ class Post {
 
   @override
   String toString() => title;
-  bool isSameId(Post curPost) => curPost.id == id;
 
   String prettyDateFormat() {
     return "${date.hour} : ${date.minute}";

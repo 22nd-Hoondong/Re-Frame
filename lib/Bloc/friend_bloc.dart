@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import '../Models/friend_model.dart';
 import '../Repository/friend_repository.dart';
 
 class FriendBloc {
   final _streamController = StreamController<List<FriendInfo>>.broadcast();
-  Stream<List<FriendInfo>> get stream =>
-      _streamController.stream.asBroadcastStream();
+  Stream<List<FriendInfo>> get stream => _streamController.stream.asBroadcastStream();
 
   final repository = FriendRepository();
 
@@ -28,31 +25,14 @@ class FriendBloc {
       return;
     }
 
-    var oldFriends = (await repository.getFriends())
-        .map((e) => FriendInfo.fromJson(e))
-        .toList();
-    for (var element in oldFriends) {
-      if (kDebugMode) {
-        print(element.name);
-      }
-    }
+    var oldFriends = (await repository.getFriends()).map((e) => FriendInfo.fromJson(e)).toList();
+    for (var element in oldFriends) {print(element.name);}
 
-    var newFriends = (await repository.searchFriends(searchText))
-        .map((e) => FriendInfo.fromJson(e))
-        .toList();
-    for (var element in newFriends) {
-      if (kDebugMode) {
-        print(element.name);
-      }
-    }
+    var newFriends = (await repository.searchFriends(searchText)).map((e) => FriendInfo.fromJson(e)).toList();
+    for (var element in newFriends) {print(element.name);}
 
-    var result =
-        newFriends.where((element) => !oldFriends.contains(element)).toList();
-    for (var element in result) {
-      if (kDebugMode) {
-        print(element.name);
-      }
-    }
+    var result = newFriends.where((element) => !oldFriends.contains(element)).toList();
+    for (var element in result) {print(element.name);}
 
     result.removeWhere((element) => element.uid == repository.uid);
 

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
 import 'package:re_frame/main.dart';
+import 'package:re_frame/Pages/login.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -13,6 +13,7 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> with MyHomePageStateMixin {
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? loggedUser;
 
@@ -22,16 +23,14 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
     getCurrentUser();
   }
 
-  void getCurrentUser() {
-    try {
+  void getCurrentUser(){
+    try{
       final user = _firebaseAuth.currentUser;
-      if (user != null) {
+      if(user != null){
         loggedUser = user;
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+    } catch(e){
+      print(e);
     }
   }
 
@@ -42,69 +41,50 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('${loggedUser!.displayName}',
-              style: const TextStyle(
-                fontSize: 30,
-                color: Colors.black,
-              )),
-          const SizedBox(
-            height: 10,
+          Container(
+              child: Text('${loggedUser!.displayName}', style: TextStyle(fontSize: 30, color: Colors.black,))
           ),
-          Text('${loggedUser!.email}',
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-              )),
-          const SizedBox(
-            height: 20,
+          SizedBox(height: 10,),
+          Container(
+              child: Text('${loggedUser!.email}', style: TextStyle(fontSize: 15, color: Colors.black,))
           ),
+          SizedBox(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              OutlinedButton(
-                  onPressed: () {
-                    signOutGoogle();
-                  },
+              OutlinedButton(onPressed: (){
+                signOutGoogle();
+              }, child: const Text('로그아웃'),
+              style: OutlinedButton.styleFrom(
+                primary: Colors.black,
+                backgroundColor: Colors.white,
+                shadowColor: Colors.grey,
+                elevation: 3,
+                side: BorderSide(color: Colors.transparent),
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+              )),
+              SizedBox(width: 30,),
+              OutlinedButton(onPressed: (){
+                deleteAccount();
+              }, child: const Text('회원 탈퇴'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
+                    primary: Colors.black,
                     backgroundColor: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 3,
-                    side: const BorderSide(color: Colors.transparent),
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    side: BorderSide(color: Colors.transparent),
+                    padding: EdgeInsets.symmetric(horizontal: 30),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
-                  ),
-                  child: const Text('로그아웃')),
-              const SizedBox(
-                width: 30,
-              ),
-              OutlinedButton(
-                  onPressed: () {
-                    deleteAccount();
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    side: const BorderSide(color: Colors.transparent),
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                  ),
-                  child: const Text('회원 탈퇴')),
+                  )),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text('ⓒ 2023. RE:Frame All Rights Reserved.',
-              style: TextStyle(
-                color: Colors.grey,
-              )),
+          SizedBox(height: 20,),
+          Text('ⓒ 2023. RE:Frame All Rights Reserved.', style: TextStyle(color: Colors.grey,)),
         ],
       ),
     );
@@ -113,9 +93,6 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   Future<void> signOutGoogle() async {
     await _firebaseAuth.signOut();
     await GoogleSignIn().signOut();
-    if (!mounted) {
-      return;
-    }
     Navigator.of(context).popUntil((Route<dynamic> route) => false);
   }
 
@@ -129,7 +106,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       onPageVisible();
     });
   }
@@ -139,5 +116,6 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
     MyHomePage.of(context)?.params = AppBarParams();
   }
 
+  @override
   bool get wantKeepAlive => true;
 }

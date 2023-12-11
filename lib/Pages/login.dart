@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:re_frame/main.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,27 +28,24 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'images/Re-Frame_Logo.png',
-                  width: 300,
-                  height: 300,
+                Image.asset('images/Re-Frame_Logo.png',
+                    width: 300,
+                    height: 300,
                 ),
-                const SizedBox(
-                  height: 60,
-                ),
+                SizedBox(height: 60,),
                 GestureDetector(
                   onTap: () {
                     signInWithGoogle();
                   },
-                  child: Image.asset(
-                    'images/android_neutral_sq_SI@2x.png',
+                  child: Image.asset('images/android_neutral_sq_SI@2x.png',
                     width: 250,
                   ),
                 ),
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -57,8 +53,7 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -66,11 +61,11 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
       idToken: googleAuth?.idToken,
     );
 
-    final UserCredential loginResult =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    final String? uid = loginResult.user?.uid; // firestore key 값
-    final String? displayName = loginResult.user?.displayName; // name으로 필드에 추가
+    final UserCredential loginResult = await FirebaseAuth.instance.signInWithCredential(credential);
+    final String? uid = loginResult.user?.uid;    // firestore key 값
+    final String? displayName = loginResult.user?.displayName;  // name으로 필드에 추가
     final String? email = loginResult.user?.email;
+    print(uid);
 
     // 별도 회원가입 로직 XX
     DocumentSnapshot signedUpUser = await db.collection("users").doc(uid).get();
@@ -86,8 +81,9 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
 
   @override
   void onPageVisible() {
-    if (kDebugMode) {
-      print('changed to login');
-    }
+    print('changed to login');
   }
 }
+
+
+
