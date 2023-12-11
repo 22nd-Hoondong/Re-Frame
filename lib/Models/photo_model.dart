@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:re_frame/Models/post_model.dart';
-import 'package:re_frame/Models/friend_model.dart';
 
 class Photo {
   late int colSize;
@@ -8,12 +7,11 @@ class Photo {
   late Post post;
   late String id;
 
-  Photo({
-    required this.colSize,
-    required this.rowSize,
-    required this.post,
-    required this.id
-  });
+  Photo(
+      {required this.colSize,
+      required this.rowSize,
+      required this.post,
+      required this.id});
 
   Photo.fromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -30,9 +28,7 @@ class Photo {
     data['id'] = id;
     data['colSize'] = colSize;
     data['rowSize'] = rowSize;
-    if (post != null) {
-      data['post'] = post.toSnapshot();
-    }
+    data['post'] = post.toSnapshot();
     return data;
   }
 }

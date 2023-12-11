@@ -42,14 +42,19 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
           Timestamp firebaseDate = postData["date"];
           DateTime postDate = DateTime.parse(firebaseDate.toDate().toString());
           Post newPostObj = Post(
-              title: postData["title"],
-              content: postData["content"],
-              date: postDate,
-              people: postData["people"],
-              photos: postData["photos"]);
+            title: postData["title"],
+            content: postData["content"],
+            date: postDate,
+            people: postData["people"],
+            photos: postData["photos"],
+            id: element.id,
+          );
           setState(() {
             if (kEvents.containsKey(postDate)) {
-              kEvents[postDate]!.add(newPostObj);
+              if (!kEvents[postDate]!
+                  .any((element) => newPostObj.isSameId(element))) {
+                kEvents[postDate]!.add(newPostObj);
+              }
             } else {
               kEvents[postDate] = [newPostObj];
             }
@@ -157,8 +162,7 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
               return Container(
                 width: 35,
                 decoration: BoxDecoration(
-                    color: pointColor.withOpacity(0.2),
-                    shape: BoxShape.circle),
+                    color: pointColor.withOpacity(0.2), shape: BoxShape.circle),
               );
             }
             return null;
