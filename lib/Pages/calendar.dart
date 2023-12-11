@@ -140,9 +140,18 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
           rangeSelectionMode: _rangeSelectionMode,
           eventLoader: _getEventsForDay,
           startingDayOfWeek: StartingDayOfWeek.monday,
-          calendarStyle: const CalendarStyle(
+          calendarStyle: CalendarStyle(
             // Use `CalendarStyle` to customize the UI
             outsideDaysVisible: false,
+            selectedDecoration: BoxDecoration(
+              color: darkBackgroundColor,
+              shape: BoxShape.circle,
+            ),
+            // today 모양 조정
+            todayDecoration: BoxDecoration(
+              color: darkBackgroundColor.withOpacity(0.7),
+              shape: BoxShape.circle,
+            ),
           ),
           onDaySelected: _onDaySelected,
           onRangeSelected: _onRangeSelected,
@@ -156,17 +165,20 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
-          calendarBuilders:
-              CalendarBuilders(markerBuilder: (context, date, dynamic event) {
-            if (event.isNotEmpty) {
-              return Container(
-                width: 35,
-                decoration: BoxDecoration(
-                    color: pointColor.withOpacity(0.2), shape: BoxShape.circle),
-              );
-            }
-            return null;
-          }),
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, date, dynamic event) {
+              if (event.isNotEmpty) {
+                return Container(
+                  width: 35,
+                  decoration: BoxDecoration(
+                    color: pointColor.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                );
+              }
+              return null;
+            },
+          ),
         ),
         const SizedBox(height: 8.0),
         Expanded(
