@@ -47,12 +47,11 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
           const SizedBox(
             height: 10,
           ),
-          Container(
-              child: Text('${loggedUser!.email}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ))),
+          Text('${loggedUser!.email}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              )),
           const SizedBox(
             height: 20,
           ),
