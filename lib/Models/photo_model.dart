@@ -28,9 +28,7 @@ class Photo {
     data['id'] = id;
     data['colSize'] = colSize;
     data['rowSize'] = rowSize;
-    if (post != null) {
-      data['post'] = post.toSnapshot();
-    }
+    data['post'] = post.toSnapshot();
     return data;
   }
 }
