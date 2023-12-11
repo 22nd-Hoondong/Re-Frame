@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:re_frame/Models/photo_model.dart';
 import 'package:re_frame/Models/friend_model.dart';
+import 'package:re_frame/Models/photo_model.dart';
 
 class Post {
   late String content;
@@ -41,12 +41,8 @@ class Post {
     data['id'] = id;
     data['content'] = content;
     data['date'] = date;
-    if (people != null) {
-      data['people'] = people.map((person) => person.toSnapshot()).toList();
-    }
-    if (photos != null) {
-      data['photos'] = photos.map((photo) => photo.toSnapshot()).toList();
-    }
+    data['people'] = people.map((person) => person.toSnapshot()).toList();
+    data['photos'] = photos.map((photo) => photo.toSnapshot()).toList();
     return data;
   }
 }
