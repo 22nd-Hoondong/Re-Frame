@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:re_frame/main.dart';
@@ -70,7 +71,6 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
     final String? uid = loginResult.user?.uid; // firestore key 값
     final String? displayName = loginResult.user?.displayName; // name으로 필드에 추가
     final String? email = loginResult.user?.email;
-    print(uid);
 
     // 별도 회원가입 로직 XX
     DocumentSnapshot signedUpUser = await db.collection("users").doc(uid).get();
@@ -86,6 +86,8 @@ class _LoginPageState extends State<LoginPage> with MyHomePageStateMixin {
 
   @override
   void onPageVisible() {
-    print('changed to login');
+    if (kDebugMode) {
+      print('changed to login');
+    }
   }
 }
