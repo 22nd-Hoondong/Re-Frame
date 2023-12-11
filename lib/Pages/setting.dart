@@ -66,7 +66,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
                     signOutGoogle();
                   },
                   style: OutlinedButton.styleFrom(
-                    primary: Colors.black,
+                    foregroundColor: Colors.black,
                     backgroundColor: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 3,
@@ -85,7 +85,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
                     deleteAccount();
                   },
                   style: OutlinedButton.styleFrom(
-                    primary: Colors.black,
+                    foregroundColor: Colors.black,
                     backgroundColor: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 3,
@@ -113,6 +113,9 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   Future<void> signOutGoogle() async {
     await _firebaseAuth.signOut();
     await GoogleSignIn().signOut();
+    if (!mounted) {
+      return;
+    }
     Navigator.of(context).popUntil((Route<dynamic> route) => false);
   }
 
@@ -126,7 +129,7 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       onPageVisible();
     });
   }
