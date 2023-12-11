@@ -39,22 +39,21 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-              child: Text('${loggedUser!.displayName}',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                  ))),
-          SizedBox(
+          Text('${loggedUser!.displayName}',
+              style: const TextStyle(
+                fontSize: 30,
+                color: Colors.black,
+              )),
+          const SizedBox(
             height: 10,
           ),
           Container(
               child: Text('${loggedUser!.email}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     color: Colors.black,
                   ))),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -64,43 +63,43 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
                   onPressed: () {
                     signOutGoogle();
                   },
-                  child: const Text('로그아웃'),
                   style: OutlinedButton.styleFrom(
                     primary: Colors.black,
                     backgroundColor: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 3,
-                    side: BorderSide(color: Colors.transparent),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    side: const BorderSide(color: Colors.transparent),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
-                  )),
-              SizedBox(
+                  ),
+                  child: const Text('로그아웃')),
+              const SizedBox(
                 width: 30,
               ),
               OutlinedButton(
                   onPressed: () {
                     deleteAccount();
                   },
-                  child: const Text('회원 탈퇴'),
                   style: OutlinedButton.styleFrom(
                     primary: Colors.black,
                     backgroundColor: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 3,
-                    side: BorderSide(color: Colors.transparent),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    side: const BorderSide(color: Colors.transparent),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
-                  )),
+                  ),
+                  child: const Text('회원 탈퇴')),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text('ⓒ 2023. RE:Frame All Rights Reserved.',
+          const Text('ⓒ 2023. RE:Frame All Rights Reserved.',
               style: TextStyle(
                 color: Colors.grey,
               )),
@@ -135,6 +134,5 @@ class _SettingState extends State<Setting> with MyHomePageStateMixin {
     MyHomePage.of(context)?.params = AppBarParams();
   }
 
-  @override
   bool get wantKeepAlive => true;
 }
