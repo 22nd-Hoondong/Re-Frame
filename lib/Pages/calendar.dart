@@ -173,7 +173,6 @@ class _CalendarState extends State<Calendar> with MyHomePageStateMixin {
           child: ValueListenableBuilder<List<Post>>(
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
-              print(value);
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
