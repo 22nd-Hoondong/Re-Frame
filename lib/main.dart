@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:re_frame/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:re_frame/Pages/calendar.dart';
 import 'package:re_frame/Pages/friends.dart';
 import 'package:re_frame/Pages/gallery.dart';
 import 'package:re_frame/Pages/login.dart';
-import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/Pages/setting.dart';
+import 'package:re_frame/Pages/upload.dart';
 import 'package:re_frame/Widgets/fluid_navbar.dart';
+import 'package:re_frame/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,12 +45,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: pointColor,
-              primary: pointColor,
-              background: backgroundColor,
-              onPrimaryContainer: Colors.black),
-          useMaterial3: true,
-          fontFamily: 'GowunDodum',
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: pointColor,
+            primary: pointColor,
+            background: backgroundColor,
+            onPrimaryContainer: Colors.black),
+        useMaterial3: true,
+        fontFamily: 'GowunDodum',
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -113,23 +114,24 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _page != 0 ? AppBar(
-          title: _params.title,
-          actions: _params.actions,
-          backgroundColor: Colors.transparent,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  _params.backgroundColor,
-                  backgroundColor,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          )
-      ) : null,
+      appBar: _page != 0
+          ? AppBar(
+              title: _params.title,
+              actions: _params.actions,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      _params.backgroundColor,
+                      backgroundColor,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ))
+          : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
