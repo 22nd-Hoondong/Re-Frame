@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class FriendInfo extends Equatable{
+class FriendInfo extends Equatable {
   late String name;
   late String uid;
   late String email;
